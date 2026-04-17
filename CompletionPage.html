@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completion Page Slip | The Word Journey</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin:0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg,#f5efe6,#e8dccb);
+}
+.container {
+  max-width:500px;
+  margin:auto;
+  padding:15px;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.card {
+  width:100%;
+  max-width:420px;
+  margin:auto;
+  background: url("backgrnd1.png") no-repeat center center;
+  background-size: cover;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  text-align:center;
+  color:white;
+  position:relative;
+}
+.card * {
+  position: relative;
+  z-index: 1;
+}
+.card::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  border-radius:20px;
+  z-index:0;
+}
+h1 {
+  font-family:'Playfair Display', serif;
+  color:white;
+  font-size:x-large;
+}
+
+.subtitle {
+  font-size:14px;
+  color:#f1e6d6;
+  margin-bottom:20px;
+}
+
+input {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-size:16px;
+  box-sizing: border-box;
+}
+
+input:disabled {
+  background: #c9c2b5;
+  color: #4a3a2a;
+  cursor: not-allowed;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:12px;
+  background:#b8894a;
+  color:white;
+  font-weight:bold;
+  min-height:50px;
+  cursor:pointer;
+  font-size:16px;
+  transition: all 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background:#d4a25f;
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background: #8e7355;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.success {
+  background:#e8f5e9;
+  padding:15px;
+  margin-top:15px;
+  border-radius:10px;
+  text-align:left;
+  font-weight:bold; 
+  color:black;
+}
+
+.error {
+  background:#ffe0e0;
+  padding:15px;
+  margin-top:15px;
+  border-radius:10px;
+}
+
+.footer {
+  margin-top:10px;
+  padding-bottom:30px;
+  font-size:12px;
+  color:#f1e6d6;
+}
+
+.admin-link {
+  margin-top:20px;
+  font-size:14px;
+}
+
+.admin-link a {
+  text-decoration:none;
+  color:#7a4c2c;
+  font-weight:bold;
+  margin-top:20px;
+  margin-bottom:40px;
+}
+
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  text-align:center;
+  margin-bottom:20px;
+  gap:12px;
+}
+.logo {
+  width:45px;
+  height:80px;
+  max-width:40%;
+  margin-bottom:10px;
+  object-fit:contain;
+  mix-blend-mode: multiply;
+  display: block;
+}
+
+.community-name {
+  flex:1;
+  text-align:center;
+  font-size:15px;
+  font-weight:bold;
+  color:white;
+  padding:0 12px;
+  line-height:1.3;
+}
+.logo.left {
+  margin-right:5px;
+  width:75px;
+}
+
+.logo.right {
+  margin-left:5px;
+  width:65px;
+}
+
+/* Progress section styles */
+.progress-section {
+  background: rgba(255,255,245,0.95);
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 20px;
+  text-align: left;
+  color: #3a2a1a;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #7a4c2c;
+  text-align: center;
+  border-bottom: 1px solid #dcc8a8;
+  padding-bottom: 8px;
+}
+
+.progress-section label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a3a28;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.progress-section input {
+  margin-top: 0;
+  background: white;
+  color: #2a2a2a;
+}
+
+.record-info {
+  background: #eef4e8;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  border-left: 4px solid #7a4c2c;
+}
+
+.record-info p {
+  margin: 8px 0;
+}
+
+.btn-secondary {
+  background: #6a8a5a;
+}
+
+.btn-secondary:hover {
+  background: #5a7a4a;
+}
+
+.btn-reset {
+  background: #9a8a6a;
+  margin-top: 10px;
+}
+
+.btn-reset:hover {
+  background: #8a7a5a;
+}
+
+/* Search section - can be hidden */
+.search-section {
+  transition: all 0.3s ease;
+}
+
+.search-section.hide {
+  display: none;
+}
+
+/* Searchable Dropdown (Combobox) Styles - HIGH Z-INDEX TO SHOW IN FRONT */
+.combobox-container {
+  position: relative;
+  width: 100%;
+  z-index: 100;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-top: 4px;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  list-style: none;
+  padding: 0;
+  display: none;
+}
+
+.dropdown-list li {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.dropdown-list li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-list li:hover {
+  background: #f0e6d8;
+}
+
+.dropdown-list li.selected {
+  background: #d4a25f;
+  color: white;
+}
+
+/* No results message */
+.no-results {
+  padding: 10px 14px;
+  color: #999;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Ensure other inputs don't overlap dropdown */
+#chaptersFinished, #versesFinished {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width:480px){
+  .logo { 
+    width:90px; 
+    height:55px;
+  }
+  .community-name { font-size:12px; }
+  .card { padding:20px; }
+  .container {
+    margin:10px;
+    padding:10px;
+    margin-top:20px;
+    align-items:flex-start;
+  }
+
+  .card {
+    padding:40px 15px 20px;
+    border-radius:15px;
+    max-width:100%;
+  }
+
+  h1 {
+    font-size:22px;
+    margin-top:10px;
+  }
+
+  .subtitle {
+    font-size:13px;
+  }
+
+  input, button {
+    padding:16px;
+    font-size:16px;
+  }
+
+  .logo.left {
+    width:70px;
+  }
+
+  .logo.right {
+    width:62px;
+  }
+
+  form {
+    margin-bottom:10px;
+  }
+  .admin-link {
+    margin-bottom:80px;
+  }
+  .footer {
+    padding-bottom:60px;
+  }
+  
+  .dropdown-list li {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="card">
+    <!-- HEADER START -->
+    <div class="header">
+      <img src="rblogo church.png" class="logo left" alt="Church Logo">
+      
+      <div class="community-name">
+        San Pedro Calungsod Filipino Catholic Community Qatar
+      </div>
+      
+      <img src="rblogo spcfcc.png" class="logo right" alt="Community Logo">
+    </div>
+    <!-- HEADER END -->
+    
+    <h1>📖 "The Word Journey”</h1>
+    <div class="subtitle">Completion Form</div>
+
+    <!-- Search Section - can be hidden -->
+    <div id="searchSection" class="search-section">
+      <form id="form">
+        <input type="text" id="refno" placeholder="Ref.No (e.g. 26001) Option 1">
+        <input type="text" id="mobile" placeholder="Mobile (e.g. 66694789) Option 2">
+        <button type="submit" id="submitBtn">Search Now</button>
+      </form>
+    </div>
+
+    <div id="msg"></div>
+
+    <!-- Progress Section (hidden initially, shows after successful search) -->
+    <div id="progressSection" class="progress-section" style="display: none;">
+      <div class="progress-title">📚 Bible Reading Progress</div>
+      <div id="recordInfo" class="record-info"></div>
+      
+      <label>📖 Book Finished</label>
+      <div class="combobox-container" id="bookCombobox">
+        <input type="text" id="bookFinished" class="combobox-input" placeholder="Select or type book name..." autocomplete="off">
+        <ul id="bookDropdown" class="dropdown-list"></ul>
+      </div>
+      
+      <label>🔢 Chapters Finished</label>
+      <input type="text" id="chaptersFinished" placeholder="e.g., 1-12 or 5">
+      
+      <label>✝️ Verses Finished</label>
+      <input type="text" id="versesFinished" placeholder="e.g., 1-30 or 15">
+      
+      <button id="saveProgressBtn" class="btn-secondary">💾 Save Reading Progress</button>
+      <button id="resetSearchBtn" class="btn-reset">🔄 Reset & Search New</button>
+    </div>
+
+    <div class="admin-link">
+      <a href="admin.html" target="_blank">🔐 Admin Panel</a>
+    </div>
+
+    <div class="footer">
+      "Your word is a lamp to my feet.” (Psalm 119:105)
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==================== CONFIGURATION ====================
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVkBkjIfJFoNnN8NpiN-lKZ2xK4n-vrjDHZkFiKQ8BIh9ci65JZCL8RTj1vzr7Ocd36A/exec";
+  
+  // ==================== COMPLETE LIST OF BIBLE BOOKS ====================
+  const bibleBooks = [
+    // Old Testament
+    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+    "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel", "1 Kings", "2 Kings",
+    "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah", "Esther", "Job",
+    "Psalms", "Proverbs", "Ecclesiastes", "Song of Solomon", "Isaiah",
+    "Jeremiah", "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
+    "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai",
+    "Zechariah", "Malachi",
+    // New Testament
+    "Matthew", "Mark", "Luke", "John", "Acts", "Romans",
+    "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians", "Philippians",
+    "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy",
+    "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter", "1 John",
+    "2 John", "3 John", "Jude", "Revelation"
+  ];
+  
+  // DOM Elements
+  const searchSection = document.getElementById('searchSection');
+  const refnoInput = document.getElementById('refno');
+  const mobileInput = document.getElementById('mobile');
+  const submitBtn = document.getElementById('submitBtn');
+  const msgDiv = document.getElementById('msg');
+  const progressSection = document.getElementById('progressSection');
+  const recordInfoDiv = document.getElementById('recordInfo');
+  const bookInput = document.getElementById('bookFinished');
+  const chaptersInput = document.getElementById('chaptersFinished');
+  const versesInput = document.getElementById('versesFinished');
+  const saveProgressBtn = document.getElementById('saveProgressBtn');
+  const resetSearchBtn = document.getElementById('resetSearchBtn');
+  const bookDropdown = document.getElementById('bookDropdown');
+
+  // Store current found record data
+  let currentRecord = null;
+  let currentRefNo = null;
+  let currentMobile = null;
+  let currentName = null;
+  let selectedBookIndex = -1;
+  let currentFilteredBooks = [...bibleBooks];
+
+  // ==================== SEARCHABLE DROPDOWN (COMBOBOX) FUNCTIONS ====================
+  
+  function filterBooks(searchTerm) {
+    if (!searchTerm.trim()) return bibleBooks;
+    const term = searchTerm.toLowerCase();
+    return bibleBooks.filter(book => book.toLowerCase().includes(term));
+  }
+
+  function renderDropdown(books) {
+    bookDropdown.innerHTML = '';
+    
+    if (books.length === 0) {
+      const li = document.createElement('li');
+      li.textContent = '📖 No matching books found';
+      li.className = 'no-results';
+      li.style.cursor = 'default';
+      li.style.color = '#999';
+      li.style.fontStyle = 'italic';
+      bookDropdown.appendChild(li);
+    } else {
+      books.forEach((book, index) => {
+        const li = document.createElement('li');
+        li.textContent = book;
+        li.dataset.index = index;
+        li.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectBook(book);
+        });
+        li.addEventListener('mouseenter', () => {
+          clearSelectedHighlight();
+          li.classList.add('selected');
+          selectedBookIndex = index;
+        });
+        bookDropdown.appendChild(li);
+      });
+    }
+    bookDropdown.style.display = 'block';
+  }
+
+  function selectBook(book) {
+    bookInput.value = book;
+    bookDropdown.style.display = 'none';
+    selectedBookIndex = -1;
+    // Trigger input event to update filtered list
+    const event = new Event('input', { bubbles: true });
+    bookInput.dispatchEvent(event);
+  }
+
+  function clearSelectedHighlight() {
+    const items = bookDropdown.querySelectorAll('li');
+    items.forEach(item => item.classList.remove('selected'));
+  }
+
+  function updateDropdown(searchTerm) {
+    currentFilteredBooks = filterBooks(searchTerm);
+    renderDropdown(currentFilteredBooks);
+    selectedBookIndex = -1;
+  }
+
+  function handleBookInput() {
+    const searchTerm = bookInput.value;
+    updateDropdown(searchTerm);
+  }
+
+  function handleBookKeydown(e) {
+    const items = bookDropdown.querySelectorAll('li');
+    const visibleItems = Array.from(items).filter(item => !item.classList.contains('no-results'));
+    
+    if (visibleItems.length === 0) {
+      if (e.key === 'Enter') {
+        bookDropdown.style.display = 'none';
+      }
+      return;
+    }
+    
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedBookIndex = Math.min(selectedBookIndex + 1, visibleItems.length - 1);
+      highlightSelectedItem(visibleItems);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedBookIndex = Math.max(selectedBookIndex - 1, 0);
+      highlightSelectedItem(visibleItems);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (selectedBookIndex >= 0 && visibleItems[selectedBookIndex]) {
+        const selectedBook = visibleItems[selectedBookIndex].textContent;
+        selectBook(selectedBook);
+      } else if (currentFilteredBooks.length === 1) {
+        // If only one match, select it
+        selectBook(currentFilteredBooks[0]);
+      }
+    } else if (e.key === 'Escape') {
+      bookDropdown.style.display = 'none';
+      selectedBookIndex = -1;
+    }
+  }
+
+  function highlightSelectedItem(items) {
+    clearSelectedHighlight();
+    if (selectedBookIndex >= 0 && items[selectedBookIndex]) {
+      items[selectedBookIndex].classList.add('selected');
+      items[selectedBookIndex].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function closeDropdown(e) {
+    const combobox = document.getElementById('bookCombobox');
+    if (!combobox.contains(e.target)) {
+      bookDropdown.style.display = 'none';
+      selectedBookIndex = -1;
+    }
+  }
+
+  // Toggle dropdown on input click
+  function toggleDropdown(e) {
+    e.stopPropagation();
+    if (bookDropdown.style.display === 'block') {
+      bookDropdown.style.display = 'none';
+      selectedBookIndex = -1;
+    } else {
+      updateDropdown(bookInput.value);
+    }
+  }
+
+  // Add event listeners for combobox
+  bookInput.addEventListener('input', handleBookInput);
+  bookInput.addEventListener('keydown', handleBookKeydown);
+  bookInput.addEventListener('click', toggleDropdown);
+  document.addEventListener('click', closeDropdown);
+
+  // ========== HIDE SEARCH SECTION ==========
+  function hideSearchSection() {
+    searchSection.classList.add('hide');
+  }
+
+  // ========== SHOW SEARCH SECTION ==========
+  function showSearchSection() {
+    searchSection.classList.remove('hide');
+  }
+
+  // ========== 1. SEARCH BUTTON ENABLE/DISABLE LOGIC ==========
+  function updateSearchButton() {
+    if (searchSection.classList.contains('hide')) return;
+    
+    const refno = refnoInput.value.trim();
+    const mobile = mobileInput.value.trim();
+    
+    const hasRefno = refno !== '';
+    const hasMobile = mobile !== '';
+    
+    if ((!hasRefno && !hasMobile) || (hasRefno && hasMobile)) {
+      submitBtn.disabled = true;
+      refnoInput.disabled = false;
+      mobileInput.disabled = false;
+    } 
+    else if (hasRefno && !hasMobile) {
+      submitBtn.disabled = false;
+      refnoInput.disabled = false;
+      mobileInput.disabled = true;
+      mobileInput.value = '';
+    } 
+    else if (!hasRefno && hasMobile) {
+      submitBtn.disabled = false;
+      mobileInput.disabled = false;
+      refnoInput.disabled = true;
+      refnoInput.value = '';
+    }
+  }
+
+  refnoInput.addEventListener('input', updateSearchButton);
+  mobileInput.addEventListener('input', updateSearchButton);
+
+  // ========== 2. SEARCH FUNCTION ==========
+  async function searchParticipant(event) {
+    event.preventDefault();
+    
+    const refno = refnoInput.value.trim();
+    const mobile = mobileInput.value.trim();
+    
+    if (!refno && !mobile) {
+      showMessage('Please enter either RefNo or Mobile number', 'error');
+      return;
+    }
+    
+    submitBtn.disabled = true;
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '⏳ Searching...';
+    msgDiv.innerHTML = '<div class="success" style="background:#e0e0d0;">Searching database...</div>';
+    
+    try {
+      let queryParam = '';
+      if (refno) {
+        queryParam = `?refno=${encodeURIComponent(refno)}`;
+      } else if (mobile) {
+        queryParam = `?mobile=${encodeURIComponent(mobile)}`;
+      }
+      
+      const response = await fetch(SCRIPT_URL + queryParam, {
+        method: 'GET',
+        mode: 'cors',
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      let records = [];
+      if (Array.isArray(result)) {
+        records = result;
+      } else if (result.data && Array.isArray(result.data)) {
+        records = result.data;
+      } else if (result.data && !Array.isArray(result.data)) {
+        records = [result.data];
+      } else if (result.RefNo) {
+        records = [result];
+      }
+      
+      let foundRecord = null;
+      
+      if (refno) {
+        foundRecord = records.find(r => String(r.RefNo) === String(refno));
+      } else if (mobile) {
+        const searchMobile = String(mobile);
+        foundRecord = records.find(r => String(r.Mobile) === searchMobile || String(r.Mobile).endsWith(searchMobile));
+      }
+      
+      if (foundRecord) {
+        currentRecord = foundRecord;
+        currentRefNo = foundRecord.RefNo;
+        currentMobile = foundRecord.Mobile;
+        currentName = foundRecord.Name || 'N/A';
+        
+        let regDate = foundRecord.RegistrationDate || 'N/A';
+        if (foundRecord.Timestamp) {
+          regDate = new Date(foundRecord.Timestamp).toLocaleDateString();
+        }
+        
+        let displayMobile = String(foundRecord.Mobile);
+        if (displayMobile && displayMobile.length === 11 && displayMobile.startsWith('974')) {
+          displayMobile = `+${displayMobile.slice(0,3)} ${displayMobile.slice(3,6)} ${displayMobile.slice(6,9)} ${displayMobile.slice(9)}`;
+        }
+        
+        recordInfoDiv.innerHTML = `
+          <p><strong>📌 RefNo:</strong> ${escapeHtml(String(foundRecord.RefNo))}</p>
+          <p><strong>👤 Name:</strong> ${escapeHtml(currentName)}</p>
+          <p><strong>📱 Mobile:</strong> ${escapeHtml(displayMobile)}</p>
+          <p><strong>📅 Registration Date:</strong> ${escapeHtml(regDate)}</p>
+        `;
+        
+        msgDiv.innerHTML = '<div class="success">✅ Participant found! Enter Bible reading progress below.</div>';
+        hideSearchSection();
+        progressSection.style.display = 'block';
+        bookInput.value = '';
+        chaptersInput.value = '';
+        versesInput.value = '';
+        
+        progressSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+      } else {
+        msgDiv.innerHTML = `
+          <div class="error">
+            ❌ <strong>Record Not Found</strong><br>
+            No participant found with ${refno ? 'RefNo: ' + refno : 'Mobile: ' + mobile}
+          </div>
+        `;
+        progressSection.style.display = 'none';
+        currentRecord = null;
+        currentRefNo = null;
+        currentMobile = null;
+        currentName = null;
+      }
+    } catch (error) {
+      console.error('Search error:', error);
+      msgDiv.innerHTML = `<div class="error">⚠️ Connection error: ${error.message}</div>`;
+      progressSection.style.display = 'none';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    }
+  }
+
+  // ========== 3. SAVE PROGRESS FUNCTION ==========
+  async function saveProgress() {
+    if (!currentRefNo && !currentMobile) {
+      showMessage('No participant selected. Please search first.', 'error');
+      return;
+    }
+    
+    const book = bookInput.value.trim();
+    const chapters = chaptersInput.value.trim();
+    const verses = versesInput.value.trim();
+    
+    if (!book && !chapters && !verses) {
+      showMessage('Please fill at least one field (Book, Chapters, or Verses) before saving.', 'error');
+      return;
+    }
+    
+    saveProgressBtn.disabled = true;
+    const originalBtnText = saveProgressBtn.innerHTML;
+    saveProgressBtn.innerHTML = '⏳ Saving Progress...';
+    
+    try {
+      const payload = {
+        action: 'updateProgress',
+        refno: currentRefNo,
+        mobile: currentMobile,
+        name: currentName,
+        bookFinished: book,
+        chaptersFinished: chapters,
+        versesFinished: verses,
+        timestamp: new Date().toISOString()
+      };
+      
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        showMessage('✅ Reading progress saved successfully!', 'success');
+        bookInput.value = '';
+        chaptersInput.value = '';
+        versesInput.value = '';
+      } else {
+        throw new Error(result.message || 'Save failed');
+      }
+    } catch (error) {
+      console.error('Save error:', error);
+      showMessage('❌ Failed to save progress: ' + error.message, 'error');
+    } finally {
+      saveProgressBtn.disabled = false;
+      saveProgressBtn.innerHTML = originalBtnText;
+    }
+  }
+
+  // ========== 4. RESET SEARCH FUNCTION ==========
+  function resetSearch() {
+    refnoInput.value = '';
+    mobileInput.value = '';
+    refnoInput.disabled = false;
+    mobileInput.disabled = false;
+    msgDiv.innerHTML = '';
+    progressSection.style.display = 'none';
+    currentRecord = null;
+    currentRefNo = null;
+    currentMobile = null;
+    currentName = null;
+    bookInput.value = '';
+    chaptersInput.value = '';
+    versesInput.value = '';
+    recordInfoDiv.innerHTML = '';
+    showSearchSection();
+    updateSearchButton();
+    refnoInput.focus();
+    showMessage('Search reset. You can search for another participant.', 'success');
+  }
+
+  function showMessage(message, type) {
+    msgDiv.innerHTML = `<div class="${type === 'error' ? 'error' : 'success'}">${message}</div>`;
+    setTimeout(() => {
+      if (msgDiv.innerHTML.includes(message)) {
+        msgDiv.innerHTML = '';
+      }
+    }, 4000);
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // ========== EVENT LISTENERS ==========
+  document.getElementById('form').addEventListener('submit', searchParticipant);
+  saveProgressBtn.addEventListener('click', saveProgress);
+  resetSearchBtn.addEventListener('click', resetSearch);
+  
+  refnoInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) {
+      e.preventDefault();
+      searchParticipant(e);
+    }
+  });
+  mobileInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) {
+      e.preventDefault();
+      searchParticipant(e);
+    }
+  });
+
+  updateSearchButton();
+  console.log('Ready — Backend URL:', SCRIPT_URL);
+  console.log('Bible books loaded:', bibleBooks.length);
+</script>
+</body>
+</html>
