@@ -288,13 +288,21 @@ button:disabled {
   accent-color: #6a8a5a;
 }
 
-/* Bottom section (Chapters, Verses, and Buttons) - hidden by default */
+/* Bottom section (Chapters, Verses, Completion Date, and Buttons) - hidden by default */
 .bottom-section {
   transition: all 0.3s ease;
   overflow: visible;
 }
 .bottom-section.hide {
   display: none;
+}
+
+/* Completion Date input styling */
+.completion-date-input {
+  margin-top: 10px;
+}
+.completion-date-input input {
+  margin-top: 0;
 }
 
 /* DROPDOWN - FIXED POSITION TO COVER EVERYTHING INCLUDING FOOTER */
@@ -402,13 +410,18 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
         </div>
       </div>
       
-      <!-- Bottom Section: Chapters, Verses, Save Button, Reset Button - hidden until book selected -->
+      <!-- Bottom Section: Chapters, Verses, Completion Date, Save Button, Reset Button - hidden until book selected -->
       <div id="bottomSection" class="bottom-section hide">
         <label>🔢 Chapters Finished</label>
         <input type="text" id="chaptersFinished" placeholder="e.g., 1-12 or 5">
         
         <label>✝️ Verses Finished</label>
         <input type="text" id="versesFinished" placeholder="e.g., 1-30 or 15">
+        
+        <label>📅 Completion Date</label>
+        <div class="completion-date-input">
+          <input type="date" id="completionDate">
+        </div>
         
         <button id="saveProgressBtn" class="btn-secondary">💾 Save Reading Progress</button>
         <button id="resetSearchBtn" class="btn-reset">🔄 Reset & Search New</button>
@@ -453,6 +466,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   const bookCompletedCheckbox = document.getElementById('bookCompletedCheckbox');
   const chaptersInput = document.getElementById('chaptersFinished');
   const versesInput = document.getElementById('versesFinished');
+  const completionDateInput = document.getElementById('completionDate');
   const saveProgressBtn = document.getElementById('saveProgressBtn');
   const resetSearchBtn = document.getElementById('resetSearchBtn');
   const bookDropdown = document.getElementById('bookDropdown');
@@ -466,6 +480,15 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   let selectedBookIndex = -1;
   let currentFilteredBooks = [...bibleBooks];
   let isBookSelected = false;
+
+  // ========== SET DEFAULT COMPLETION DATE TO TODAY ==========
+  function setDefaultCompletionDate() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    completionDateInput.value = `${yyyy}-${mm}-${dd}`;
+  }
 
   // ========== UPDATE DROPDOWN POSITION (FIXED POSITIONING) ==========
   function updateDropdownPosition() {
@@ -546,6 +569,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     selectedBookIndex = -1;
     // Show bottom section and admin link when book is selected
     showBottomAndAdmin();
+    setDefaultCompletionDate();
     updateChapterVerseState();
     bookInput.blur();
   }
@@ -727,6 +751,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
         bookCompletedCheckbox.checked = false;
         chaptersInput.value = '';
         versesInput.value = '';
+        setDefaultCompletionDate();
         isBookSelected = false;
         hideBottomAndAdmin();
         progressSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -753,13 +778,27 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     const isBookCompleted = bookCompletedCheckbox.checked;
     const chapters = chaptersInput.value.trim();
     const verses = versesInput.value.trim();
+    const completionDate = completionDateInput.value;
+    
     if (!book) { showMessage('Please select or enter a book.', 'error'); return; }
     if (!isBookCompleted && !chapters && !verses) { showMessage('Please either check "Book Completed" or enter Chapters/Verses.', 'error'); return; }
+    
     saveProgressBtn.disabled = true;
     const originalBtnText = saveProgressBtn.innerHTML;
     saveProgressBtn.innerHTML = '⏳ Saving Progress...';
     try {
-      const payload = { action: 'updateProgress', refno: currentRefNo, mobile: currentMobile, name: currentName, bookFinished: book, bookCompleted: isBookCompleted, chaptersFinished: chapters, versesFinished: verses, timestamp: new Date().toISOString() };
+      const payload = { 
+        action: 'updateProgress', 
+        refno: currentRefNo, 
+        mobile: currentMobile, 
+        name: currentName, 
+        bookFinished: book, 
+        bookCompleted: isBookCompleted, 
+        chaptersFinished: chapters, 
+        versesFinished: verses,
+        completionDate: completionDate,
+        timestamp: new Date().toISOString() 
+      };
       const response = await fetch(SCRIPT_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const result = await response.json();
@@ -769,6 +808,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
         bookCompletedCheckbox.checked = false;
         chaptersInput.value = '';
         versesInput.value = '';
+        setDefaultCompletionDate();
         isBookSelected = false;
         hideBottomAndAdmin();
       } else throw new Error(result.message || 'Save failed');
@@ -796,6 +836,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     bookCompletedCheckbox.checked = false;
     chaptersInput.value = '';
     versesInput.value = '';
+    setDefaultCompletionDate();
     recordInfoDiv.innerHTML = '';
     isBookSelected = false;
     hideBottomAndAdmin();
@@ -823,6 +864,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   mobileInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) { e.preventDefault(); searchParticipant(e); } });
 
   updateSearchButton();
+  setDefaultCompletionDate();
   console.log('Ready');
 </script>
 </body>
