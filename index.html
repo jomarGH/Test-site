@@ -118,6 +118,15 @@ button:disabled {
   margin-top:15px;
   border-radius:10px;
 }
+.warning {
+  background:#fff3cd;
+  padding:15px;
+  margin-top:15px;
+  border-radius:10px;
+  text-align:left;
+  color:#856404;
+  border-left: 4px solid #ffc107;
+}
 .footer {
   margin-top:10px;
   padding-bottom:30px;
@@ -537,10 +546,28 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   function calculateVersesFromChapters(bookName, chaptersValue) {
     const bookData = getBookData(bookName);
     if (!bookData.verses || !bookData.chapters) return 0;
-    // Calculate average verses per chapter, then multiply by chapters read
     const avgVersesPerChapter = bookData.verses / bookData.chapters;
     const chaptersNum = parseFloat(chaptersValue) || 0;
     return Math.round(avgVersesPerChapter * chaptersNum);
+  }
+
+  function showWarningMessage(bookName, totalChapters, totalVerses) {
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'warning';
+    warningDiv.innerHTML = `⚠️ <strong>Invalid Input for "${bookName}"</strong><br>
+    Maximum chapters allowed: <strong>${totalChapters}</strong><br>
+    Total verses in this book: <strong>${totalVerses}</strong><br>
+    Please enter a value between 1 and ${totalChapters}.`;
+    
+    // Remove any existing warning message
+    const existingWarning = msgDiv.querySelector('.warning');
+    if (existingWarning) existingWarning.remove();
+    msgDiv.appendChild(warningDiv);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      if (warningDiv.parentNode) warningDiv.remove();
+    }, 5000);
   }
 
   // ==================== UPDATE CHAPTERS AND VERSES BASED ON CHECKBOX ====================
@@ -563,9 +590,17 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
       // If chapters input has a value, auto-calculate verses
       const chaptersVal = chaptersInput.value.trim();
       if (chaptersVal && !isNaN(chaptersVal)) {
-        const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
-        if (calculatedVerses > 0) {
-          versesInput.value = calculatedVerses;
+        const chaptersNum = parseFloat(chaptersVal);
+        // Validate if chapters exceed total chapters
+        if (chaptersNum > bookData.chapters && bookData.chapters > 0) {
+          showWarningMessage(bookValue, bookData.chapters, bookData.verses);
+          chaptersInput.value = bookData.chapters;
+          versesInput.value = bookData.verses;
+        } else {
+          const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
+          if (calculatedVerses > 0) {
+            versesInput.value = calculatedVerses;
+          }
         }
       }
     } else {
@@ -577,24 +612,38 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     }
   }
   
-  // Listen to chapters input change for auto-calculation
-  function handleChaptersInput() {
+  // ==================== VALIDATE CHAPTERS INPUT ====================
+  function validateChaptersInput() {
     const bookValue = bookInput.value.trim();
     const isBookCompleted = bookCompletedCheckbox.checked;
     
     if (bookValue !== '' && !isBookCompleted) {
       const chaptersVal = chaptersInput.value.trim();
-      if (chaptersVal && !isNaN(chaptersVal)) {
-        const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
-        if (calculatedVerses > 0) {
-          versesInput.value = calculatedVerses;
+      const bookData = getBookData(bookValue);
+      
+      if (chaptersVal && !isNaN(chaptersVal) && bookData.chapters > 0) {
+        const chaptersNum = parseFloat(chaptersVal);
+        
+        // Check if chapters exceed total chapters
+        if (chaptersNum > bookData.chapters) {
+          showWarningMessage(bookValue, bookData.chapters, bookData.verses);
+          chaptersInput.value = bookData.chapters;
+          versesInput.value = bookData.verses;
+        } else {
+          const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
+          if (calculatedVerses > 0) {
+            versesInput.value = calculatedVerses;
+          }
         }
       }
     }
   }
   
+  // Listen to checkbox change
   bookCompletedCheckbox.addEventListener('change', updateChapterVerseState);
-  chaptersInput.addEventListener('input', handleChaptersInput);
+  
+  // Listen to chapters input for validation and auto-calculation
+  chaptersInput.addEventListener('input', validateChaptersInput);
 
   // ==================== DROPDOWN FUNCTIONS ====================
   function updateDropdownPosition() {
