@@ -127,7 +127,6 @@ button:disabled {
   z-index: 1;
 }
 
-/* Search section - can be hidden */
 .search-section {
   transition: all 0.3s ease;
 }
@@ -135,7 +134,6 @@ button:disabled {
   display: none;
 }
 
-/* Admin link section */
 .admin-link-section {
   transition: all 0.3s ease;
   margin-top: 20px;
@@ -189,7 +187,6 @@ button:disabled {
   width:65px;
 }
 
-/* Progress section styles */
 .progress-section {
   background: rgba(255,255,245,0.95);
   border-radius: 16px;
@@ -247,7 +244,6 @@ button:disabled {
   background: #8a7a5a;
 }
 
-/* Book input with checkbox wrapper */
 .book-input-wrapper {
   display: flex;
   align-items: center;
@@ -288,7 +284,6 @@ button:disabled {
   accent-color: #6a8a5a;
 }
 
-/* Bottom section (Chapters, Verses, Completion Date, and Buttons) - hidden by default */
 .bottom-section {
   transition: all 0.3s ease;
   overflow: visible;
@@ -297,7 +292,6 @@ button:disabled {
   display: none;
 }
 
-/* Completion Date input styling */
 .completion-date-input {
   margin-top: 10px;
 }
@@ -305,7 +299,6 @@ button:disabled {
   margin-top: 0;
 }
 
-/* DROPDOWN - FIXED POSITION TO COVER EVERYTHING INCLUDING FOOTER */
 .dropdown-list {
   position: fixed !important;
   top: auto !important;
@@ -350,7 +343,6 @@ button:disabled {
   cursor: default !important;
 }
 
-/* Ensure all parent containers allow overflow */
 html, body, .container, .card, .progress-section, .book-input-wrapper {
   overflow: visible !important;
 }
@@ -410,7 +402,6 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
         </div>
       </div>
       
-      <!-- Bottom Section: Chapters, Verses, Completion Date, Save Button, Reset Button - hidden until book selected -->
       <div id="bottomSection" class="bottom-section hide">
         <label>🔢 Chapters Finished</label>
         <input type="text" id="chaptersFinished" placeholder="e.g., 1-12 or 5">
@@ -428,7 +419,6 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
       </div>
     </div>
 
-    <!-- Admin Link Section - hidden until book selected -->
     <div id="adminLinkSection" class="admin-link-section hide">
       <a href="admin.html" target="_blank">🔐 Admin Panel</a>
     </div>
@@ -440,20 +430,77 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVkBkjIfJFoNnN8NpiN-lKZ2xK4n-vrjDHZkFiKQ8BIh9ci65JZCL8RTj1vzr7Ocd36A/exec";
   
-  const bibleBooks = [
-    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
-    "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel", "1 Kings", "2 Kings",
-    "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah", "Esther", "Job",
-    "Psalms", "Proverbs", "Ecclesiastes", "Song of Solomon", "Isaiah",
-    "Jeremiah", "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
-    "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai",
-    "Zechariah", "Malachi",
-    "Matthew", "Mark", "Luke", "John", "Acts", "Romans",
-    "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians", "Philippians",
-    "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy",
-    "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter", "1 John",
-    "2 John", "3 John", "Jude", "Revelation"
-  ];
+  // ==================== BIBLE BOOKS DATA WITH CHAPTER AND VERSE COUNTS ====================
+  const bibleBooksData = {
+    "Genesis": { chapters: 50, verses: 1533 },
+    "Exodus": { chapters: 40, verses: 1213 },
+    "Leviticus": { chapters: 27, verses: 859 },
+    "Numbers": { chapters: 36, verses: 1288 },
+    "Deuteronomy": { chapters: 34, verses: 959 },
+    "Joshua": { chapters: 24, verses: 658 },
+    "Judges": { chapters: 21, verses: 618 },
+    "Ruth": { chapters: 4, verses: 85 },
+    "1 Samuel": { chapters: 31, verses: 810 },
+    "2 Samuel": { chapters: 24, verses: 695 },
+    "1 Kings": { chapters: 22, verses: 816 },
+    "2 Kings": { chapters: 25, verses: 719 },
+    "1 Chronicles": { chapters: 29, verses: 942 },
+    "2 Chronicles": { chapters: 36, verses: 822 },
+    "Ezra": { chapters: 10, verses: 280 },
+    "Nehemiah": { chapters: 13, verses: 406 },
+    "Esther": { chapters: 10, verses: 167 },
+    "Job": { chapters: 42, verses: 1070 },
+    "Psalms": { chapters: 150, verses: 2461 },
+    "Proverbs": { chapters: 31, verses: 915 },
+    "Ecclesiastes": { chapters: 12, verses: 222 },
+    "Song of Solomon": { chapters: 8, verses: 117 },
+    "Isaiah": { chapters: 66, verses: 1292 },
+    "Jeremiah": { chapters: 52, verses: 1364 },
+    "Lamentations": { chapters: 5, verses: 154 },
+    "Ezekiel": { chapters: 48, verses: 1273 },
+    "Daniel": { chapters: 12, verses: 357 },
+    "Hosea": { chapters: 14, verses: 197 },
+    "Joel": { chapters: 3, verses: 73 },
+    "Amos": { chapters: 9, verses: 146 },
+    "Obadiah": { chapters: 1, verses: 21 },
+    "Jonah": { chapters: 4, verses: 48 },
+    "Micah": { chapters: 7, verses: 105 },
+    "Nahum": { chapters: 3, verses: 56 },
+    "Habakkuk": { chapters: 3, verses: 56 },
+    "Zephaniah": { chapters: 3, verses: 53 },
+    "Haggai": { chapters: 2, verses: 38 },
+    "Zechariah": { chapters: 14, verses: 211 },
+    "Malachi": { chapters: 4, verses: 55 },
+    "Matthew": { chapters: 28, verses: 1071 },
+    "Mark": { chapters: 16, verses: 678 },
+    "Luke": { chapters: 24, verses: 1151 },
+    "John": { chapters: 21, verses: 879 },
+    "Acts": { chapters: 28, verses: 1007 },
+    "Romans": { chapters: 16, verses: 433 },
+    "1 Corinthians": { chapters: 16, verses: 437 },
+    "2 Corinthians": { chapters: 13, verses: 257 },
+    "Galatians": { chapters: 6, verses: 149 },
+    "Ephesians": { chapters: 6, verses: 155 },
+    "Philippians": { chapters: 4, verses: 104 },
+    "Colossians": { chapters: 4, verses: 95 },
+    "1 Thessalonians": { chapters: 5, verses: 89 },
+    "2 Thessalonians": { chapters: 3, verses: 47 },
+    "1 Timothy": { chapters: 6, verses: 113 },
+    "2 Timothy": { chapters: 4, verses: 83 },
+    "Titus": { chapters: 3, verses: 46 },
+    "Philemon": { chapters: 1, verses: 25 },
+    "Hebrews": { chapters: 13, verses: 303 },
+    "James": { chapters: 5, verses: 108 },
+    "1 Peter": { chapters: 5, verses: 105 },
+    "2 Peter": { chapters: 3, verses: 61 },
+    "1 John": { chapters: 5, verses: 105 },
+    "2 John": { chapters: 1, verses: 13 },
+    "3 John": { chapters: 1, verses: 14 },
+    "Jude": { chapters: 1, verses: 25 },
+    "Revelation": { chapters: 22, verses: 404 }
+  };
+  
+  const bibleBooks = Object.keys(bibleBooksData);
   
   const searchSection = document.getElementById('searchSection');
   const refnoInput = document.getElementById('refno');
@@ -477,20 +524,79 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   let currentRefNo = null;
   let currentMobile = null;
   let currentName = null;
+  let currentRegDate = null;
   let selectedBookIndex = -1;
   let currentFilteredBooks = [...bibleBooks];
   let isBookSelected = false;
 
-  // ========== SET DEFAULT COMPLETION DATE TO TODAY ==========
-  function setDefaultCompletionDate() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    completionDateInput.value = `${yyyy}-${mm}-${dd}`;
+  // ==================== HELPER FUNCTIONS ====================
+  function getBookData(bookName) {
+    return bibleBooksData[bookName] || { chapters: 0, verses: 0 };
   }
 
-  // ========== UPDATE DROPDOWN POSITION (FIXED POSITIONING) ==========
+  function calculateVersesFromChapters(bookName, chaptersValue) {
+    const bookData = getBookData(bookName);
+    if (!bookData.verses || !bookData.chapters) return 0;
+    // Calculate average verses per chapter, then multiply by chapters read
+    const avgVersesPerChapter = bookData.verses / bookData.chapters;
+    const chaptersNum = parseFloat(chaptersValue) || 0;
+    return Math.round(avgVersesPerChapter * chaptersNum);
+  }
+
+  // ==================== UPDATE CHAPTERS AND VERSES BASED ON CHECKBOX ====================
+  function updateChapterVerseState() {
+    const bookValue = bookInput.value.trim();
+    const isBookCompleted = bookCompletedCheckbox.checked;
+    const bookData = getBookData(bookValue);
+    
+    if (bookValue !== '' && isBookCompleted) {
+      // Book Completed = TRUE: Fill with total chapters and verses, then disable
+      chaptersInput.value = bookData.chapters;
+      versesInput.value = bookData.verses;
+      chaptersInput.disabled = true;
+      versesInput.disabled = true;
+    } else if (bookValue !== '' && !isBookCompleted) {
+      // Book Completed = FALSE: Enable inputs for manual entry
+      chaptersInput.disabled = false;
+      versesInput.disabled = false;
+      
+      // If chapters input has a value, auto-calculate verses
+      const chaptersVal = chaptersInput.value.trim();
+      if (chaptersVal && !isNaN(chaptersVal)) {
+        const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
+        if (calculatedVerses > 0) {
+          versesInput.value = calculatedVerses;
+        }
+      }
+    } else {
+      // No book selected: reset and disable
+      chaptersInput.value = '';
+      versesInput.value = '';
+      chaptersInput.disabled = false;
+      versesInput.disabled = false;
+    }
+  }
+  
+  // Listen to chapters input change for auto-calculation
+  function handleChaptersInput() {
+    const bookValue = bookInput.value.trim();
+    const isBookCompleted = bookCompletedCheckbox.checked;
+    
+    if (bookValue !== '' && !isBookCompleted) {
+      const chaptersVal = chaptersInput.value.trim();
+      if (chaptersVal && !isNaN(chaptersVal)) {
+        const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
+        if (calculatedVerses > 0) {
+          versesInput.value = calculatedVerses;
+        }
+      }
+    }
+  }
+  
+  bookCompletedCheckbox.addEventListener('change', updateChapterVerseState);
+  chaptersInput.addEventListener('input', handleChaptersInput);
+
+  // ==================== DROPDOWN FUNCTIONS ====================
   function updateDropdownPosition() {
     const inputRect = bookInput.getBoundingClientRect();
     bookDropdown.style.position = 'fixed';
@@ -499,36 +605,16 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     bookDropdown.style.width = inputRect.width + 'px';
   }
 
-  // ========== HIDE BOTTOM SECTION AND ADMIN LINK ==========
   function hideBottomAndAdmin() {
     bottomSection.classList.add('hide');
     adminLinkSection.classList.add('hide');
   }
 
-  // ========== SHOW BOTTOM SECTION AND ADMIN LINK ==========
   function showBottomAndAdmin() {
     bottomSection.classList.remove('hide');
     adminLinkSection.classList.remove('hide');
   }
 
-  function updateChapterVerseState() {
-    const bookValue = bookInput.value.trim();
-    const isBookCompleted = bookCompletedCheckbox.checked;
-    
-    if (bookValue !== '' && isBookCompleted) {
-      chaptersInput.disabled = true;
-      versesInput.disabled = true;
-      chaptersInput.value = '';
-      versesInput.value = '';
-    } else {
-      chaptersInput.disabled = false;
-      versesInput.disabled = false;
-    }
-  }
-  
-  bookCompletedCheckbox.addEventListener('change', updateChapterVerseState);
-  
-  // ========== DROPDOWN FUNCTIONS ==========
   function filterBooks(searchTerm) {
     if (!searchTerm.trim()) return bibleBooks;
     const term = searchTerm.toLowerCase();
@@ -567,10 +653,13 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     isBookSelected = true;
     bookDropdown.style.display = 'none';
     selectedBookIndex = -1;
-    // Show bottom section and admin link when book is selected
+    
+    // Reset checkbox and update chapter/verse state based on book data
+    bookCompletedCheckbox.checked = false;
+    updateChapterVerseState();
+    
     showBottomAndAdmin();
     setDefaultCompletionDate();
-    updateChapterVerseState();
     bookInput.blur();
   }
 
@@ -583,13 +672,11 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   function handleBookInput() {
     const searchTerm = bookInput.value;
     
-    // Reset selection flag when typing
     if (searchTerm.trim() !== bookInput.value.trim() || searchTerm.trim() === '') {
       isBookSelected = false;
       if (searchTerm.trim() === '') {
         bookCompletedCheckbox.checked = false;
       }
-      // Hide bottom section and admin link when typing
       hideBottomAndAdmin();
     }
     
@@ -644,23 +731,15 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     }
   }
 
-  // ========== FOCUS HANDLER ==========
   function handleBookFocus() {
-    // When user clicks or focuses on Book input, hide bottom section and admin link
     hideBottomAndAdmin();
-    console.log('Book input focused - bottom section hidden');
   }
 
-  // Update dropdown position on scroll/resize
   window.addEventListener('scroll', () => {
-    if (bookDropdown.style.display === 'block') {
-      updateDropdownPosition();
-    }
+    if (bookDropdown.style.display === 'block') updateDropdownPosition();
   });
   window.addEventListener('resize', () => {
-    if (bookDropdown.style.display === 'block') {
-      updateDropdownPosition();
-    }
+    if (bookDropdown.style.display === 'block') updateDropdownPosition();
   });
 
   bookInput.addEventListener('input', handleBookInput);
@@ -669,13 +748,18 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
   bookInput.addEventListener('click', (e) => {
     e.stopPropagation();
     hideBottomAndAdmin();
-    if (bookInput.value.trim() !== '') {
-      updateDropdown(bookInput.value);
-    }
+    if (bookInput.value.trim() !== '') updateDropdown(bookInput.value);
   });
   document.addEventListener('click', closeDropdown);
 
-  // ========== SEARCH SECTION FUNCTIONS ==========
+  function setDefaultCompletionDate() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    completionDateInput.value = `${yyyy}-${mm}-${dd}`;
+  }
+
   function hideSearchSection() { searchSection.classList.add('hide'); }
   function showSearchSection() { searchSection.classList.remove('hide'); }
 
@@ -737,13 +821,13 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
         currentRefNo = foundRecord.RefNo;
         currentMobile = foundRecord.Mobile;
         currentName = foundRecord.Name || 'N/A';
-        let regDate = foundRecord.RegistrationDate || 'N/A';
-        if (foundRecord.Timestamp) regDate = new Date(foundRecord.Timestamp).toLocaleDateString();
+        currentRegDate = foundRecord.RegistrationDate || 'N/A';
+        if (foundRecord.Timestamp) currentRegDate = new Date(foundRecord.Timestamp).toLocaleDateString();
         let displayMobile = String(foundRecord.Mobile);
         if (displayMobile && displayMobile.length === 11 && displayMobile.startsWith('974')) {
           displayMobile = `+${displayMobile.slice(0,3)} ${displayMobile.slice(3,6)} ${displayMobile.slice(6,9)} ${displayMobile.slice(9)}`;
         }
-        recordInfoDiv.innerHTML = `<p><strong>📌 RefNo:</strong> ${escapeHtml(String(foundRecord.RefNo))}</p><p><strong>👤 Name:</strong> ${escapeHtml(currentName)}</p><p><strong>📱 Mobile:</strong> ${escapeHtml(displayMobile)}</p><p><strong>📅 Registration Date:</strong> ${escapeHtml(regDate)}</p>`;
+        recordInfoDiv.innerHTML = `<p><strong>📌 RefNo:</strong> ${escapeHtml(String(foundRecord.RefNo))}</p><p><strong>👤 Name:</strong> ${escapeHtml(currentName)}</p><p><strong>📱 Mobile:</strong> ${escapeHtml(displayMobile)}</p><p><strong>📅 Registration Date:</strong> ${escapeHtml(currentRegDate)}</p>`;
         msgDiv.innerHTML = '<div class="success">✅ Participant found! Enter Bible reading progress below.</div>';
         hideSearchSection();
         progressSection.style.display = 'block';
@@ -774,34 +858,56 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
       showMessage('No participant selected. Please search first.', 'error');
       return;
     }
+    
     const book = bookInput.value.trim();
     const isBookCompleted = bookCompletedCheckbox.checked;
     const chapters = chaptersInput.value.trim();
     const verses = versesInput.value.trim();
     const completionDate = completionDateInput.value;
     
-    if (!book) { showMessage('Please select or enter a book.', 'error'); return; }
-    if (!isBookCompleted && !chapters && !verses) { showMessage('Please either check "Book Completed" or enter Chapters/Verses.', 'error'); return; }
+    if (!book) { 
+      showMessage('Please select or enter a book.', 'error'); 
+      return; 
+    }
+    
+    if (!isBookCompleted && !chapters && !verses) { 
+      showMessage('Please either check "Book Completed" or enter Chapters/Verses.', 'error'); 
+      return; 
+    }
     
     saveProgressBtn.disabled = true;
     const originalBtnText = saveProgressBtn.innerHTML;
     saveProgressBtn.innerHTML = '⏳ Saving Progress...';
+    
     try {
       const payload = { 
-        action: 'updateProgress', 
-        refno: currentRefNo, 
-        mobile: currentMobile, 
-        name: currentName, 
-        bookFinished: book, 
-        bookCompleted: isBookCompleted, 
-        chaptersFinished: chapters, 
+        action: 'saveProgress',
+        refno: currentRefNo,
+        name: currentName,
+        mobile: currentMobile,
+        registrationDate: currentRegDate,
+        bookFinished: book,
+        bookCompleted: isBookCompleted,
+        chaptersFinished: chapters,
         versesFinished: verses,
         completionDate: completionDate,
-        timestamp: new Date().toISOString() 
+        timestamp: new Date().toISOString()
       };
-      const response = await fetch(SCRIPT_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      
+      console.log('Saving payload:', payload);
+      
+      const response = await fetch(SCRIPT_URL, { 
+        method: 'POST', 
+        mode: 'cors', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(payload) 
+      });
+      
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      
       const result = await response.json();
+      console.log('Save result:', result);
+      
       if (result.status === 'success') {
         showMessage('✅ Reading progress saved successfully!', 'success');
         bookInput.value = '';
@@ -811,9 +917,11 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
         setDefaultCompletionDate();
         isBookSelected = false;
         hideBottomAndAdmin();
-      } else throw new Error(result.message || 'Save failed');
+      } else {
+        throw new Error(result.message || 'Save failed');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Save error:', error);
       showMessage('❌ Failed to save progress: ' + error.message, 'error');
     } finally {
       saveProgressBtn.disabled = false;
@@ -832,6 +940,7 @@ html, body, .container, .card, .progress-section, .book-input-wrapper {
     currentRefNo = null;
     currentMobile = null;
     currentName = null;
+    currentRegDate = null;
     bookInput.value = '';
     bookCompletedCheckbox.checked = false;
     chaptersInput.value = '';
