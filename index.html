@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Completion Page Slip | The Word Journey</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@ body {
   margin:0;
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg,#f5efe6,#e8dccb);
+  overflow-x: visible;
 }
 .container {
   max-width:500px;
@@ -24,6 +25,7 @@ body {
   display:flex;
   align-items:center;
   justify-content:center;
+  overflow: visible;
 }
 
 .card {
@@ -38,10 +40,7 @@ body {
   text-align:center;
   color:white;
   position:relative;
-}
-.card * {
-  position: relative;
-  z-index: 1;
+  overflow: visible;
 }
 .card::before {
   content:"";
@@ -52,20 +51,21 @@ body {
   height:100%;
   background: rgba(0,0,0,0.5);
   border-radius:20px;
-  z-index:0;
+}
+.card * {
+  position: relative;
+  z-index: 1;
 }
 h1 {
   font-family:'Playfair Display', serif;
   color:white;
   font-size:x-large;
 }
-
 .subtitle {
   font-size:14px;
   color:#f1e6d6;
   margin-bottom:20px;
 }
-
 input {
   width:100%;
   padding:12px;
@@ -75,13 +75,11 @@ input {
   font-size:16px;
   box-sizing: border-box;
 }
-
 input:disabled {
   background: #c9c2b5;
   color: #4a3a2a;
   cursor: not-allowed;
 }
-
 button {
   width:100%;
   padding:12px;
@@ -96,18 +94,15 @@ button {
   font-size:16px;
   transition: all 0.2s;
 }
-
 button:hover:not(:disabled) {
   background:#d4a25f;
   transform: scale(0.98);
 }
-
 button:disabled {
   background: #8e7355;
   cursor: not-allowed;
   opacity: 0.6;
 }
-
 .success {
   background:#e8f5e9;
   padding:15px;
@@ -117,32 +112,46 @@ button:disabled {
   font-weight:bold; 
   color:black;
 }
-
 .error {
   background:#ffe0e0;
   padding:15px;
   margin-top:15px;
   border-radius:10px;
 }
-
 .footer {
   margin-top:10px;
   padding-bottom:30px;
   font-size:12px;
   color:#f1e6d6;
+  position: relative;
+  z-index: 1;
 }
 
-.admin-link {
-  margin-top:20px;
-  font-size:14px;
+/* Search section - can be hidden */
+.search-section {
+  transition: all 0.3s ease;
+}
+.search-section.hide {
+  display: none;
 }
 
-.admin-link a {
-  text-decoration:none;
-  color:#7a4c2c;
-  font-weight:bold;
-  margin-top:20px;
-  margin-bottom:40px;
+/* Admin link section */
+.admin-link-section {
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.admin-link-section.hide {
+  display: none;
+}
+.admin-link-section a {
+  text-decoration: none;
+  color: #7a4c2c;
+  font-weight: bold;
+  background: rgba(255,255,245,0.9);
+  padding: 8px 16px;
+  border-radius: 40px;
+  display: inline-block;
 }
 
 .header {
@@ -162,7 +171,6 @@ button:disabled {
   mix-blend-mode: multiply;
   display: block;
 }
-
 .community-name {
   flex:1;
   text-align:center;
@@ -176,7 +184,6 @@ button:disabled {
   margin-right:5px;
   width:75px;
 }
-
 .logo.right {
   margin-left:5px;
   width:65px;
@@ -191,9 +198,8 @@ button:disabled {
   text-align: left;
   color: #3a2a1a;
   position: relative;
-  z-index: 1;
+  overflow: visible;
 }
-
 .progress-title {
   font-weight: bold;
   font-size: 16px;
@@ -203,7 +209,6 @@ button:disabled {
   border-bottom: 1px solid #dcc8a8;
   padding-bottom: 8px;
 }
-
 .progress-section label {
   font-size: 13px;
   font-weight: 600;
@@ -212,13 +217,11 @@ button:disabled {
   margin-top: 10px;
   margin-bottom: 4px;
 }
-
 .progress-section input {
   margin-top: 0;
   background: white;
   color: #2a2a2a;
 }
-
 .record-info {
   background: #eef4e8;
   padding: 12px;
@@ -227,73 +230,91 @@ button:disabled {
   font-size: 13px;
   border-left: 4px solid #7a4c2c;
 }
-
 .record-info p {
   margin: 8px 0;
 }
-
 .btn-secondary {
   background: #6a8a5a;
 }
-
 .btn-secondary:hover {
   background: #5a7a4a;
 }
-
 .btn-reset {
   background: #9a8a6a;
   margin-top: 10px;
 }
-
 .btn-reset:hover {
   background: #8a7a5a;
 }
 
-/* Search section - can be hidden */
-.search-section {
-  transition: all 0.3s ease;
+/* Book input with checkbox wrapper */
+.book-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  position: relative;
+}
+.book-input-wrapper .combobox-container {
+  flex: 1;
+  margin-top: 0;
+  position: relative;
+}
+.book-input-wrapper .combobox-input {
+  margin-top: 0;
+}
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 48px;
+  border: 1.5px solid #ddd;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.checkbox-wrapper:hover {
+  border-color: #b8894a;
+  background: #fef5e8;
+}
+.checkbox-wrapper input {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #6a8a5a;
 }
 
-.search-section.hide {
+/* Bottom section (Chapters, Verses, and Buttons) - hidden by default */
+.bottom-section {
+  transition: all 0.3s ease;
+  overflow: visible;
+}
+.bottom-section.hide {
   display: none;
 }
 
-/* Searchable Dropdown (Combobox) Styles - HIGH Z-INDEX TO SHOW IN FRONT */
-.combobox-container {
-  position: relative;
-  width: 100%;
-  z-index: 100;
-}
-
-.combobox-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
+/* DROPDOWN - FIXED POSITION TO COVER EVERYTHING INCLUDING FOOTER */
 .dropdown-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
   max-height: 250px;
+  min-width: 200px;
   overflow-y: auto;
   background: white;
   border: 1px solid #ccc;
   border-radius: 12px;
   margin-top: 4px;
-  z-index: 9999;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 2147483647 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   list-style: none;
   padding: 0;
   display: none;
 }
-
 .dropdown-list li {
   padding: 10px 14px;
   cursor: pointer;
@@ -301,91 +322,45 @@ button:disabled {
   color: #333;
   border-bottom: 1px solid #eee;
   transition: background 0.2s;
+  background: white;
 }
-
 .dropdown-list li:last-child {
   border-bottom: none;
 }
-
 .dropdown-list li:hover {
   background: #f0e6d8;
 }
-
 .dropdown-list li.selected {
   background: #d4a25f;
   color: white;
 }
-
-/* No results message */
 .no-results {
   padding: 10px 14px;
   color: #999;
   font-style: italic;
   text-align: center;
+  cursor: default !important;
 }
 
-/* Ensure other inputs don't overlap dropdown */
-#chaptersFinished, #versesFinished {
-  position: relative;
-  z-index: 1;
+/* Ensure all parent containers allow overflow */
+html, body, .container, .card, .progress-section, .book-input-wrapper {
+  overflow: visible !important;
 }
 
 @media (max-width:480px){
-  .logo { 
-    width:90px; 
-    height:55px;
-  }
+  .logo { width:90px; height:55px; }
   .community-name { font-size:12px; }
   .card { padding:20px; }
-  .container {
-    margin:10px;
-    padding:10px;
-    margin-top:20px;
-    align-items:flex-start;
-  }
-
-  .card {
-    padding:40px 15px 20px;
-    border-radius:15px;
-    max-width:100%;
-  }
-
-  h1 {
-    font-size:22px;
-    margin-top:10px;
-  }
-
-  .subtitle {
-    font-size:13px;
-  }
-
-  input, button {
-    padding:16px;
-    font-size:16px;
-  }
-
-  .logo.left {
-    width:70px;
-  }
-
-  .logo.right {
-    width:62px;
-  }
-
-  form {
-    margin-bottom:10px;
-  }
-  .admin-link {
-    margin-bottom:80px;
-  }
-  .footer {
-    padding-bottom:60px;
-  }
-  
-  .dropdown-list li {
-    padding: 12px 14px;
-    font-size: 16px;
-  }
+  .container { margin:10px; padding:10px; margin-top:20px; align-items:flex-start; }
+  .card { padding:40px 15px 20px; border-radius:15px; max-width:100%; }
+  h1 { font-size:22px; margin-top:10px; }
+  .subtitle { font-size:13px; }
+  input, button { padding:16px; font-size:16px; }
+  .logo.left { width:70px; }
+  .logo.right { width:62px; }
+  form { margin-bottom:10px; }
+  .dropdown-list li { padding: 12px 14px; font-size: 16px; }
+  .checkbox-wrapper { height: 52px; padding: 0 10px; }
 }
 </style>
 </head>
@@ -393,22 +368,15 @@ button:disabled {
 <body>
 <div class="container">
   <div class="card">
-    <!-- HEADER START -->
     <div class="header">
       <img src="rblogo church.png" class="logo left" alt="Church Logo">
-      
-      <div class="community-name">
-        San Pedro Calungsod Filipino Catholic Community Qatar
-      </div>
-      
+      <div class="community-name">San Pedro Calungsod Filipino Catholic Community Qatar</div>
       <img src="rblogo spcfcc.png" class="logo right" alt="Community Logo">
     </div>
-    <!-- HEADER END -->
     
     <h1>📖 "The Word Journey”</h1>
     <div class="subtitle">Completion Form</div>
 
-    <!-- Search Section - can be hidden -->
     <div id="searchSection" class="search-section">
       <form id="form">
         <input type="text" id="refno" placeholder="Ref.No (e.g. 26001) Option 1">
@@ -419,44 +387,47 @@ button:disabled {
 
     <div id="msg"></div>
 
-    <!-- Progress Section (hidden initially, shows after successful search) -->
     <div id="progressSection" class="progress-section" style="display: none;">
       <div class="progress-title">📚 Bible Reading Progress</div>
       <div id="recordInfo" class="record-info"></div>
       
       <label>📖 Book Finished</label>
-      <div class="combobox-container" id="bookCombobox">
-        <input type="text" id="bookFinished" class="combobox-input" placeholder="Select or type book name..." autocomplete="off">
-        <ul id="bookDropdown" class="dropdown-list"></ul>
+      <div class="book-input-wrapper">
+        <div class="combobox-container" id="bookCombobox">
+          <input type="text" id="bookFinished" class="combobox-input" placeholder="Select or type book name..." autocomplete="off">
+          <ul id="bookDropdown" class="dropdown-list"></ul>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="bookCompletedCheckbox" title="Mark entire book as completed">
+        </div>
       </div>
       
-      <label>🔢 Chapters Finished</label>
-      <input type="text" id="chaptersFinished" placeholder="e.g., 1-12 or 5">
-      
-      <label>✝️ Verses Finished</label>
-      <input type="text" id="versesFinished" placeholder="e.g., 1-30 or 15">
-      
-      <button id="saveProgressBtn" class="btn-secondary">💾 Save Reading Progress</button>
-      <button id="resetSearchBtn" class="btn-reset">🔄 Reset & Search New</button>
+      <!-- Bottom Section: Chapters, Verses, Save Button, Reset Button - hidden until book selected -->
+      <div id="bottomSection" class="bottom-section hide">
+        <label>🔢 Chapters Finished</label>
+        <input type="text" id="chaptersFinished" placeholder="e.g., 1-12 or 5">
+        
+        <label>✝️ Verses Finished</label>
+        <input type="text" id="versesFinished" placeholder="e.g., 1-30 or 15">
+        
+        <button id="saveProgressBtn" class="btn-secondary">💾 Save Reading Progress</button>
+        <button id="resetSearchBtn" class="btn-reset">🔄 Reset & Search New</button>
+      </div>
     </div>
 
-    <div class="admin-link">
+    <!-- Admin Link Section - hidden until book selected -->
+    <div id="adminLinkSection" class="admin-link-section hide">
       <a href="admin.html" target="_blank">🔐 Admin Panel</a>
     </div>
 
-    <div class="footer">
-      "Your word is a lamp to my feet.” (Psalm 119:105)
-    </div>
+    <div class="footer">"Your word is a lamp to my feet.” (Psalm 119:105)</div>
   </div>
 </div>
 
 <script>
-  // ==================== CONFIGURATION ====================
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVkBkjIfJFoNnN8NpiN-lKZ2xK4n-vrjDHZkFiKQ8BIh9ci65JZCL8RTj1vzr7Ocd36A/exec";
   
-  // ==================== COMPLETE LIST OF BIBLE BOOKS ====================
   const bibleBooks = [
-    // Old Testament
     "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
     "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel", "1 Kings", "2 Kings",
     "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah", "Esther", "Job",
@@ -464,7 +435,6 @@ button:disabled {
     "Jeremiah", "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
     "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai",
     "Zechariah", "Malachi",
-    // New Testament
     "Matthew", "Mark", "Luke", "John", "Acts", "Romans",
     "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians", "Philippians",
     "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy",
@@ -472,7 +442,6 @@ button:disabled {
     "2 John", "3 John", "Jude", "Revelation"
   ];
   
-  // DOM Elements
   const searchSection = document.getElementById('searchSection');
   const refnoInput = document.getElementById('refno');
   const mobileInput = document.getElementById('mobile');
@@ -481,22 +450,62 @@ button:disabled {
   const progressSection = document.getElementById('progressSection');
   const recordInfoDiv = document.getElementById('recordInfo');
   const bookInput = document.getElementById('bookFinished');
+  const bookCompletedCheckbox = document.getElementById('bookCompletedCheckbox');
   const chaptersInput = document.getElementById('chaptersFinished');
   const versesInput = document.getElementById('versesFinished');
   const saveProgressBtn = document.getElementById('saveProgressBtn');
   const resetSearchBtn = document.getElementById('resetSearchBtn');
   const bookDropdown = document.getElementById('bookDropdown');
+  const bottomSection = document.getElementById('bottomSection');
+  const adminLinkSection = document.getElementById('adminLinkSection');
 
-  // Store current found record data
   let currentRecord = null;
   let currentRefNo = null;
   let currentMobile = null;
   let currentName = null;
   let selectedBookIndex = -1;
   let currentFilteredBooks = [...bibleBooks];
+  let isBookSelected = false;
 
-  // ==================== SEARCHABLE DROPDOWN (COMBOBOX) FUNCTIONS ====================
+  // ========== UPDATE DROPDOWN POSITION (FIXED POSITIONING) ==========
+  function updateDropdownPosition() {
+    const inputRect = bookInput.getBoundingClientRect();
+    bookDropdown.style.position = 'fixed';
+    bookDropdown.style.top = (inputRect.bottom + window.scrollY) + 'px';
+    bookDropdown.style.left = inputRect.left + 'px';
+    bookDropdown.style.width = inputRect.width + 'px';
+  }
+
+  // ========== HIDE BOTTOM SECTION AND ADMIN LINK ==========
+  function hideBottomAndAdmin() {
+    bottomSection.classList.add('hide');
+    adminLinkSection.classList.add('hide');
+  }
+
+  // ========== SHOW BOTTOM SECTION AND ADMIN LINK ==========
+  function showBottomAndAdmin() {
+    bottomSection.classList.remove('hide');
+    adminLinkSection.classList.remove('hide');
+  }
+
+  function updateChapterVerseState() {
+    const bookValue = bookInput.value.trim();
+    const isBookCompleted = bookCompletedCheckbox.checked;
+    
+    if (bookValue !== '' && isBookCompleted) {
+      chaptersInput.disabled = true;
+      versesInput.disabled = true;
+      chaptersInput.value = '';
+      versesInput.value = '';
+    } else {
+      chaptersInput.disabled = false;
+      versesInput.disabled = false;
+    }
+  }
   
+  bookCompletedCheckbox.addEventListener('change', updateChapterVerseState);
+  
+  // ========== DROPDOWN FUNCTIONS ==========
   function filterBooks(searchTerm) {
     if (!searchTerm.trim()) return bibleBooks;
     const term = searchTerm.toLowerCase();
@@ -505,47 +514,40 @@ button:disabled {
 
   function renderDropdown(books) {
     bookDropdown.innerHTML = '';
-    
     if (books.length === 0) {
       const li = document.createElement('li');
       li.textContent = '📖 No matching books found';
       li.className = 'no-results';
-      li.style.cursor = 'default';
-      li.style.color = '#999';
-      li.style.fontStyle = 'italic';
       bookDropdown.appendChild(li);
     } else {
       books.forEach((book, index) => {
         const li = document.createElement('li');
         li.textContent = book;
-        li.dataset.index = index;
         li.addEventListener('click', (e) => {
           e.stopPropagation();
           selectBook(book);
         });
         li.addEventListener('mouseenter', () => {
-          clearSelectedHighlight();
+          document.querySelectorAll('.dropdown-list li').forEach(item => item.classList.remove('selected'));
           li.classList.add('selected');
           selectedBookIndex = index;
         });
         bookDropdown.appendChild(li);
       });
     }
+    updateDropdownPosition();
     bookDropdown.style.display = 'block';
   }
 
   function selectBook(book) {
     bookInput.value = book;
+    isBookSelected = true;
     bookDropdown.style.display = 'none';
     selectedBookIndex = -1;
-    // Trigger input event to update filtered list
-    const event = new Event('input', { bubbles: true });
-    bookInput.dispatchEvent(event);
-  }
-
-  function clearSelectedHighlight() {
-    const items = bookDropdown.querySelectorAll('li');
-    items.forEach(item => item.classList.remove('selected'));
+    // Show bottom section and admin link when book is selected
+    showBottomAndAdmin();
+    updateChapterVerseState();
+    bookInput.blur();
   }
 
   function updateDropdown(searchTerm) {
@@ -556,6 +558,22 @@ button:disabled {
 
   function handleBookInput() {
     const searchTerm = bookInput.value;
+    
+    // Reset selection flag when typing
+    if (searchTerm.trim() !== bookInput.value.trim() || searchTerm.trim() === '') {
+      isBookSelected = false;
+      if (searchTerm.trim() === '') {
+        bookCompletedCheckbox.checked = false;
+      }
+      // Hide bottom section and admin link when typing
+      hideBottomAndAdmin();
+    }
+    
+    if (searchTerm.trim() === '') {
+      bookDropdown.style.display = 'none';
+      updateChapterVerseState();
+      return;
+    }
     updateDropdown(searchTerm);
   }
 
@@ -563,41 +581,34 @@ button:disabled {
     const items = bookDropdown.querySelectorAll('li');
     const visibleItems = Array.from(items).filter(item => !item.classList.contains('no-results'));
     
-    if (visibleItems.length === 0) {
-      if (e.key === 'Enter') {
-        bookDropdown.style.display = 'none';
-      }
-      return;
-    }
+    if (visibleItems.length === 0) return;
     
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       selectedBookIndex = Math.min(selectedBookIndex + 1, visibleItems.length - 1);
-      highlightSelectedItem(visibleItems);
+      visibleItems.forEach((item, idx) => {
+        if (idx === selectedBookIndex) item.classList.add('selected');
+        else item.classList.remove('selected');
+      });
+      if (visibleItems[selectedBookIndex]) visibleItems[selectedBookIndex].scrollIntoView({ block: 'nearest' });
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       selectedBookIndex = Math.max(selectedBookIndex - 1, 0);
-      highlightSelectedItem(visibleItems);
+      visibleItems.forEach((item, idx) => {
+        if (idx === selectedBookIndex) item.classList.add('selected');
+        else item.classList.remove('selected');
+      });
+      if (visibleItems[selectedBookIndex]) visibleItems[selectedBookIndex].scrollIntoView({ block: 'nearest' });
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (selectedBookIndex >= 0 && visibleItems[selectedBookIndex]) {
-        const selectedBook = visibleItems[selectedBookIndex].textContent;
-        selectBook(selectedBook);
+        selectBook(visibleItems[selectedBookIndex].textContent);
       } else if (currentFilteredBooks.length === 1) {
-        // If only one match, select it
         selectBook(currentFilteredBooks[0]);
       }
     } else if (e.key === 'Escape') {
       bookDropdown.style.display = 'none';
       selectedBookIndex = -1;
-    }
-  }
-
-  function highlightSelectedItem(items) {
-    clearSelectedHighlight();
-    if (selectedBookIndex >= 0 && items[selectedBookIndex]) {
-      items[selectedBookIndex].classList.add('selected');
-      items[selectedBookIndex].scrollIntoView({ block: 'nearest' });
     }
   }
 
@@ -609,55 +620,57 @@ button:disabled {
     }
   }
 
-  // Toggle dropdown on input click
-  function toggleDropdown(e) {
-    e.stopPropagation();
-    if (bookDropdown.style.display === 'block') {
-      bookDropdown.style.display = 'none';
-      selectedBookIndex = -1;
-    } else {
-      updateDropdown(bookInput.value);
-    }
+  // ========== FOCUS HANDLER ==========
+  function handleBookFocus() {
+    // When user clicks or focuses on Book input, hide bottom section and admin link
+    hideBottomAndAdmin();
+    console.log('Book input focused - bottom section hidden');
   }
 
-  // Add event listeners for combobox
+  // Update dropdown position on scroll/resize
+  window.addEventListener('scroll', () => {
+    if (bookDropdown.style.display === 'block') {
+      updateDropdownPosition();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (bookDropdown.style.display === 'block') {
+      updateDropdownPosition();
+    }
+  });
+
   bookInput.addEventListener('input', handleBookInput);
   bookInput.addEventListener('keydown', handleBookKeydown);
-  bookInput.addEventListener('click', toggleDropdown);
+  bookInput.addEventListener('focus', handleBookFocus);
+  bookInput.addEventListener('click', (e) => {
+    e.stopPropagation();
+    hideBottomAndAdmin();
+    if (bookInput.value.trim() !== '') {
+      updateDropdown(bookInput.value);
+    }
+  });
   document.addEventListener('click', closeDropdown);
 
-  // ========== HIDE SEARCH SECTION ==========
-  function hideSearchSection() {
-    searchSection.classList.add('hide');
-  }
+  // ========== SEARCH SECTION FUNCTIONS ==========
+  function hideSearchSection() { searchSection.classList.add('hide'); }
+  function showSearchSection() { searchSection.classList.remove('hide'); }
 
-  // ========== SHOW SEARCH SECTION ==========
-  function showSearchSection() {
-    searchSection.classList.remove('hide');
-  }
-
-  // ========== 1. SEARCH BUTTON ENABLE/DISABLE LOGIC ==========
   function updateSearchButton() {
     if (searchSection.classList.contains('hide')) return;
-    
     const refno = refnoInput.value.trim();
     const mobile = mobileInput.value.trim();
-    
     const hasRefno = refno !== '';
     const hasMobile = mobile !== '';
-    
     if ((!hasRefno && !hasMobile) || (hasRefno && hasMobile)) {
       submitBtn.disabled = true;
       refnoInput.disabled = false;
       mobileInput.disabled = false;
-    } 
-    else if (hasRefno && !hasMobile) {
+    } else if (hasRefno && !hasMobile) {
       submitBtn.disabled = false;
       refnoInput.disabled = false;
       mobileInput.disabled = true;
       mobileInput.value = '';
-    } 
-    else if (!hasRefno && hasMobile) {
+    } else if (!hasRefno && hasMobile) {
       submitBtn.disabled = false;
       mobileInput.disabled = false;
       refnoInput.disabled = true;
@@ -668,110 +681,61 @@ button:disabled {
   refnoInput.addEventListener('input', updateSearchButton);
   mobileInput.addEventListener('input', updateSearchButton);
 
-  // ========== 2. SEARCH FUNCTION ==========
   async function searchParticipant(event) {
     event.preventDefault();
-    
     const refno = refnoInput.value.trim();
     const mobile = mobileInput.value.trim();
-    
     if (!refno && !mobile) {
       showMessage('Please enter either RefNo or Mobile number', 'error');
       return;
     }
-    
     submitBtn.disabled = true;
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.innerHTML = '⏳ Searching...';
     msgDiv.innerHTML = '<div class="success" style="background:#e0e0d0;">Searching database...</div>';
-    
     try {
       let queryParam = '';
-      if (refno) {
-        queryParam = `?refno=${encodeURIComponent(refno)}`;
-      } else if (mobile) {
-        queryParam = `?mobile=${encodeURIComponent(mobile)}`;
-      }
-      
-      const response = await fetch(SCRIPT_URL + queryParam, {
-        method: 'GET',
-        mode: 'cors',
-        headers: { 'Accept': 'application/json' }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
+      if (refno) queryParam = `?refno=${encodeURIComponent(refno)}`;
+      else if (mobile) queryParam = `?mobile=${encodeURIComponent(mobile)}`;
+      const response = await fetch(SCRIPT_URL + queryParam, { method: 'GET', mode: 'cors', headers: { 'Accept': 'application/json' } });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const result = await response.json();
-      
       let records = [];
-      if (Array.isArray(result)) {
-        records = result;
-      } else if (result.data && Array.isArray(result.data)) {
-        records = result.data;
-      } else if (result.data && !Array.isArray(result.data)) {
-        records = [result.data];
-      } else if (result.RefNo) {
-        records = [result];
-      }
-      
+      if (Array.isArray(result)) records = result;
+      else if (result.data && Array.isArray(result.data)) records = result.data;
+      else if (result.data && !Array.isArray(result.data)) records = [result.data];
+      else if (result.RefNo) records = [result];
       let foundRecord = null;
-      
-      if (refno) {
-        foundRecord = records.find(r => String(r.RefNo) === String(refno));
-      } else if (mobile) {
-        const searchMobile = String(mobile);
-        foundRecord = records.find(r => String(r.Mobile) === searchMobile || String(r.Mobile).endsWith(searchMobile));
-      }
-      
+      if (refno) foundRecord = records.find(r => String(r.RefNo) === String(refno));
+      else if (mobile) foundRecord = records.find(r => String(r.Mobile) === String(mobile) || String(r.Mobile).endsWith(String(mobile)));
       if (foundRecord) {
         currentRecord = foundRecord;
         currentRefNo = foundRecord.RefNo;
         currentMobile = foundRecord.Mobile;
         currentName = foundRecord.Name || 'N/A';
-        
         let regDate = foundRecord.RegistrationDate || 'N/A';
-        if (foundRecord.Timestamp) {
-          regDate = new Date(foundRecord.Timestamp).toLocaleDateString();
-        }
-        
+        if (foundRecord.Timestamp) regDate = new Date(foundRecord.Timestamp).toLocaleDateString();
         let displayMobile = String(foundRecord.Mobile);
         if (displayMobile && displayMobile.length === 11 && displayMobile.startsWith('974')) {
           displayMobile = `+${displayMobile.slice(0,3)} ${displayMobile.slice(3,6)} ${displayMobile.slice(6,9)} ${displayMobile.slice(9)}`;
         }
-        
-        recordInfoDiv.innerHTML = `
-          <p><strong>📌 RefNo:</strong> ${escapeHtml(String(foundRecord.RefNo))}</p>
-          <p><strong>👤 Name:</strong> ${escapeHtml(currentName)}</p>
-          <p><strong>📱 Mobile:</strong> ${escapeHtml(displayMobile)}</p>
-          <p><strong>📅 Registration Date:</strong> ${escapeHtml(regDate)}</p>
-        `;
-        
+        recordInfoDiv.innerHTML = `<p><strong>📌 RefNo:</strong> ${escapeHtml(String(foundRecord.RefNo))}</p><p><strong>👤 Name:</strong> ${escapeHtml(currentName)}</p><p><strong>📱 Mobile:</strong> ${escapeHtml(displayMobile)}</p><p><strong>📅 Registration Date:</strong> ${escapeHtml(regDate)}</p>`;
         msgDiv.innerHTML = '<div class="success">✅ Participant found! Enter Bible reading progress below.</div>';
         hideSearchSection();
         progressSection.style.display = 'block';
         bookInput.value = '';
+        bookCompletedCheckbox.checked = false;
         chaptersInput.value = '';
         versesInput.value = '';
-        
+        isBookSelected = false;
+        hideBottomAndAdmin();
         progressSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        
       } else {
-        msgDiv.innerHTML = `
-          <div class="error">
-            ❌ <strong>Record Not Found</strong><br>
-            No participant found with ${refno ? 'RefNo: ' + refno : 'Mobile: ' + mobile}
-          </div>
-        `;
+        msgDiv.innerHTML = `<div class="error">❌ Record Not Found</div>`;
         progressSection.style.display = 'none';
-        currentRecord = null;
-        currentRefNo = null;
-        currentMobile = null;
-        currentName = null;
       }
     } catch (error) {
-      console.error('Search error:', error);
+      console.error(error);
       msgDiv.innerHTML = `<div class="error">⚠️ Connection error: ${error.message}</div>`;
       progressSection.style.display = 'none';
     } finally {
@@ -780,61 +744,36 @@ button:disabled {
     }
   }
 
-  // ========== 3. SAVE PROGRESS FUNCTION ==========
   async function saveProgress() {
     if (!currentRefNo && !currentMobile) {
       showMessage('No participant selected. Please search first.', 'error');
       return;
     }
-    
     const book = bookInput.value.trim();
+    const isBookCompleted = bookCompletedCheckbox.checked;
     const chapters = chaptersInput.value.trim();
     const verses = versesInput.value.trim();
-    
-    if (!book && !chapters && !verses) {
-      showMessage('Please fill at least one field (Book, Chapters, or Verses) before saving.', 'error');
-      return;
-    }
-    
+    if (!book) { showMessage('Please select or enter a book.', 'error'); return; }
+    if (!isBookCompleted && !chapters && !verses) { showMessage('Please either check "Book Completed" or enter Chapters/Verses.', 'error'); return; }
     saveProgressBtn.disabled = true;
     const originalBtnText = saveProgressBtn.innerHTML;
     saveProgressBtn.innerHTML = '⏳ Saving Progress...';
-    
     try {
-      const payload = {
-        action: 'updateProgress',
-        refno: currentRefNo,
-        mobile: currentMobile,
-        name: currentName,
-        bookFinished: book,
-        chaptersFinished: chapters,
-        versesFinished: verses,
-        timestamp: new Date().toISOString()
-      };
-      
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
+      const payload = { action: 'updateProgress', refno: currentRefNo, mobile: currentMobile, name: currentName, bookFinished: book, bookCompleted: isBookCompleted, chaptersFinished: chapters, versesFinished: verses, timestamp: new Date().toISOString() };
+      const response = await fetch(SCRIPT_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const result = await response.json();
-      
       if (result.status === 'success') {
         showMessage('✅ Reading progress saved successfully!', 'success');
         bookInput.value = '';
+        bookCompletedCheckbox.checked = false;
         chaptersInput.value = '';
         versesInput.value = '';
-      } else {
-        throw new Error(result.message || 'Save failed');
-      }
+        isBookSelected = false;
+        hideBottomAndAdmin();
+      } else throw new Error(result.message || 'Save failed');
     } catch (error) {
-      console.error('Save error:', error);
+      console.error(error);
       showMessage('❌ Failed to save progress: ' + error.message, 'error');
     } finally {
       saveProgressBtn.disabled = false;
@@ -842,7 +781,6 @@ button:disabled {
     }
   }
 
-  // ========== 4. RESET SEARCH FUNCTION ==========
   function resetSearch() {
     refnoInput.value = '';
     mobileInput.value = '';
@@ -855,9 +793,12 @@ button:disabled {
     currentMobile = null;
     currentName = null;
     bookInput.value = '';
+    bookCompletedCheckbox.checked = false;
     chaptersInput.value = '';
     versesInput.value = '';
     recordInfoDiv.innerHTML = '';
+    isBookSelected = false;
+    hideBottomAndAdmin();
     showSearchSection();
     updateSearchButton();
     refnoInput.focus();
@@ -866,44 +807,23 @@ button:disabled {
 
   function showMessage(message, type) {
     msgDiv.innerHTML = `<div class="${type === 'error' ? 'error' : 'success'}">${message}</div>`;
-    setTimeout(() => {
-      if (msgDiv.innerHTML.includes(message)) {
-        msgDiv.innerHTML = '';
-      }
-    }, 4000);
+    setTimeout(() => { if (msgDiv.innerHTML.includes(message)) msgDiv.innerHTML = ''; }, 4000);
   }
 
   function escapeHtml(str) {
     if (!str) return '';
-    return String(str).replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
+    return String(str).replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
   }
 
-  // ========== EVENT LISTENERS ==========
   document.getElementById('form').addEventListener('submit', searchParticipant);
   saveProgressBtn.addEventListener('click', saveProgress);
   resetSearchBtn.addEventListener('click', resetSearch);
   
-  refnoInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) {
-      e.preventDefault();
-      searchParticipant(e);
-    }
-  });
-  mobileInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) {
-      e.preventDefault();
-      searchParticipant(e);
-    }
-  });
+  refnoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) { e.preventDefault(); searchParticipant(e); } });
+  mobileInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) { e.preventDefault(); searchParticipant(e); } });
 
   updateSearchButton();
-  console.log('Ready — Backend URL:', SCRIPT_URL);
-  console.log('Bible books loaded:', bibleBooks.length);
+  console.log('Ready');
 </script>
 </body>
 </html>
