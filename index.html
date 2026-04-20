@@ -2,20 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Completion Page Slip | The Word Journey</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completion Page</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing:border-box; }
 body {
   margin:0;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg,#f5efe6,#e8dccb);
-  overflow-x: visible;
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(135deg,#f5efe6,#e8dccb);
 }
 .container {
   max-width:500px;
@@ -25,61 +22,38 @@ body {
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow: visible;
 }
-
 .card {
   width:100%;
   max-width:420px;
-  margin:auto;
-  background: url("backgrnd1.png") no-repeat center center;
-  background-size: cover;
+  background:url("backgrnd1.png") no-repeat center center;
+  background-size:cover;
   border-radius:20px;
   padding:25px;
   box-shadow:0 20px 40px rgba(0,0,0,0.25);
   text-align:center;
   color:white;
   position:relative;
-  overflow: visible;
 }
 .card::before {
   content:"";
   position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.5);
+  inset:0;
+  background:rgba(0,0,0,0.5);
   border-radius:20px;
 }
-.card * {
-  position: relative;
-  z-index: 1;
-}
-h1 {
-  font-family:'Playfair Display', serif;
-  color:white;
-  font-size:x-large;
-}
-.subtitle {
-  font-size:14px;
-  color:#f1e6d6;
-  margin-bottom:20px;
-}
+.card * { position:relative; z-index:1; }
+
+h1 { font-family:'Playfair Display'; }
+
 input {
   width:100%;
   padding:12px;
   margin-top:10px;
   border-radius:12px;
   border:1px solid #ddd;
-  font-size:16px;
-  box-sizing: border-box;
 }
-input:disabled {
-  background: #c9c2b5;
-  color: #4a3a2a;
-  cursor: not-allowed;
-}
+
 button {
   width:100%;
   padding:12px;
@@ -89,941 +63,124 @@ button {
   background:#b8894a;
   color:white;
   font-weight:bold;
-  min-height:50px;
-  cursor:pointer;
-  font-size:16px;
-  transition: all 0.2s;
-}
-button:hover:not(:disabled) {
-  background:#d4a25f;
-  transform: scale(0.98);
-}
-button:disabled {
-  background: #8e7355;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-.success {
-  background:#e8f5e9;
-  padding:15px;
-  margin-top:15px;
-  border-radius:10px;
-  text-align:left;
-  font-weight:bold; 
-  color:black;
-}
-.error {
-  background:#ffe0e0;
-  padding:15px;
-  margin-top:15px;
-  border-radius:10px;
-}
-.warning {
-  background:#fff3cd;
-  padding:15px;
-  margin-top:15px;
-  border-radius:10px;
-  text-align:left;
-  color:#856404;
-  border-left: 4px solid #ffc107;
-}
-.footer {
-  margin-top:10px;
-  padding-bottom:30px;
-  font-size:12px;
-  color:#f1e6d6;
-  position: relative;
-  z-index: 1;
 }
 
-.search-section {
-  transition: all 0.3s ease;
-}
-.search-section.hide {
-  display: none;
-}
+.success { background:#e8f5e9; color:black; padding:12px; margin-top:10px; border-radius:10px; }
+.error { background:#ffe0e0; padding:12px; margin-top:10px; border-radius:10px; }
 
-.admin-link-section {
-  transition: all 0.3s ease;
-  margin-top: 20px;
-  font-size: 14px;
-}
-.admin-link-section.hide {
-  display: none;
-}
-.admin-link-section a {
-  text-decoration: none;
-  color: #7a4c2c;
-  font-weight: bold;
-  background: rgba(255,255,245,0.9);
-  padding: 8px 16px;
-  border-radius: 40px;
-  display: inline-block;
-}
-
-.header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  text-align:center;
-  margin-bottom:20px;
-  gap:12px;
-}
-.logo {
-  width:45px;
-  height:80px;
-  max-width:40%;
-  margin-bottom:10px;
-  object-fit:contain;
-  mix-blend-mode: multiply;
-  display: block;
-}
-.community-name {
-  flex:1;
-  text-align:center;
-  font-size:15px;
-  font-weight:bold;
-  color:white;
-  padding:0 12px;
-  line-height:1.3;
-}
-.logo.left {
-  margin-right:5px;
-  width:75px;
-}
-.logo.right {
-  margin-left:5px;
-  width:65px;
-}
-
-.progress-section {
-  background: rgba(255,255,245,0.95);
-  border-radius: 16px;
-  padding: 18px;
-  margin-top: 20px;
-  text-align: left;
-  color: #3a2a1a;
-  position: relative;
-  overflow: visible;
-}
-.progress-title {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 12px;
-  color: #7a4c2c;
-  text-align: center;
-  border-bottom: 1px solid #dcc8a8;
-  padding-bottom: 8px;
-}
-.progress-section label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #5a3a28;
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 4px;
-}
-.progress-section input {
-  margin-top: 0;
-  background: white;
-  color: #2a2a2a;
-}
-.record-info {
-  background: #eef4e8;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  font-size: 13px;
-  border-left: 4px solid #7a4c2c;
-}
-.record-info p {
-  margin: 8px 0;
-}
-.btn-secondary {
-  background: #6a8a5a;
-}
-.btn-secondary:hover {
-  background: #5a7a4a;
-}
-.btn-reset {
-  background: #9a8a6a;
-  margin-top: 10px;
-}
-.btn-reset:hover {
-  background: #8a7a5a;
-}
-
-.book-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-  position: relative;
-}
-.book-input-wrapper .combobox-container {
-  flex: 1;
-  margin-top: 0;
-  position: relative;
-}
-.book-input-wrapper .combobox-input {
-  margin-top: 0;
-}
-.checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 12px;
-  padding: 0 12px;
-  height: 48px;
-  border: 1.5px solid #ddd;
-  cursor: pointer;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-.checkbox-wrapper:hover {
-  border-color: #b8894a;
-  background: #fef5e8;
-}
-.checkbox-wrapper input {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-  cursor: pointer;
-  accent-color: #6a8a5a;
-}
-
-.bottom-section {
-  transition: all 0.3s ease;
-  overflow: visible;
-}
-.bottom-section.hide {
-  display: none;
-}
-
-.completion-date-input {
-  margin-top: 10px;
-}
-.completion-date-input input {
-  margin-top: 0;
-}
-
-.dropdown-list {
-  position: fixed !important;
-  top: auto !important;
-  left: auto !important;
-  max-height: 250px;
-  min-width: 200px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  margin-top: 4px;
-  z-index: 2147483647 !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  list-style: none;
-  padding: 0;
-  display: none;
-}
-.dropdown-list li {
-  padding: 10px 14px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s;
-  background: white;
-}
-.dropdown-list li:last-child {
-  border-bottom: none;
-}
-.dropdown-list li:hover {
-  background: #f0e6d8;
-}
-.dropdown-list li.selected {
-  background: #d4a25f;
-  color: white;
-}
-.no-results {
-  padding: 10px 14px;
-  color: #999;
-  font-style: italic;
-  text-align: center;
-  cursor: default !important;
-}
-
-html, body, .container, .card, .progress-section, .book-input-wrapper {
-  overflow: visible !important;
-}
-
-@media (max-width:480px){
-  .logo { width:90px; height:55px; }
-  .community-name { font-size:12px; }
-  .card { padding:20px; }
-  .container { margin:10px; padding:10px; margin-top:20px; align-items:flex-start; }
-  .card { padding:40px 15px 20px; border-radius:15px; max-width:100%; }
-  h1 { font-size:22px; margin-top:10px; }
-  .subtitle { font-size:13px; }
-  input, button { padding:16px; font-size:16px; }
-  .logo.left { width:70px; }
-  .logo.right { width:62px; }
-  form { margin-bottom:10px; }
-  .dropdown-list li { padding: 12px 14px; font-size: 16px; }
-  .checkbox-wrapper { height: 52px; padding: 0 10px; }
-}
+.footer { font-size:12px; margin-top:15px; color:#f1e6d6; }
 </style>
 </head>
 
 <body>
 <div class="container">
-  <div class="card">
-    <div class="header">
-      <img src="rblogo church.png" class="logo left" alt="Church Logo">
-      <div class="community-name">San Pedro Calungsod Filipino Catholic Community Qatar</div>
-      <img src="rblogo spcfcc.png" class="logo right" alt="Community Logo">
-    </div>
-    
-    <h1>📖 "The Word Journey”</h1>
-    <div class="subtitle">Completion Form</div>
+<div class="card">
 
-    <div id="searchSection" class="search-section">
-      <form id="form">
-        <input type="text" id="refno" placeholder="Ref.No (e.g. 26001) Option 1">
-        <input type="text" id="mobile" placeholder="Mobile (e.g. 66694789) Option 2">
-        <button type="submit" id="submitBtn">Search Now</button>
-      </form>
-    </div>
+<h1>📖 Completion Page</h1>
+<div class="subtitle">Bible Progress</div>
 
-    <div id="msg"></div>
+<!-- SEARCH -->
+<input id="refno" placeholder="RefNo">
+<input id="mobile" placeholder="Mobile">
+<input id="name" placeholder="Name (family search)">
+<button onclick="search()">🔍 Search</button>
 
-    <div id="progressSection" class="progress-section" style="display: none;">
-      <div class="progress-title">📚 Bible Reading Progress</div>
-      <div id="recordInfo" class="record-info"></div>
-      
-      <label>📖 Book Finished</label>
-      <div class="book-input-wrapper">
-        <div class="combobox-container" id="bookCombobox">
-          <input type="text" id="bookFinished" class="combobox-input" placeholder="Select or type book name..." autocomplete="off">
-          <ul id="bookDropdown" class="dropdown-list"></ul>
-        </div>
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="bookCompletedCheckbox" title="Mark entire book as completed">
-        </div>
-      </div>
-      
-      <div id="bottomSection" class="bottom-section hide">
-        <label>🔢 Chapters Finished</label>
-        <input type="text" id="chaptersFinished" placeholder="e.g., 1-12 or 5">
-        
-        <label>✝️ Verses Finished</label>
-        <input type="text" id="versesFinished" placeholder="e.g., 1-30 or 15">
-        
-        <label>📅 Completion Date</label>
-        <div class="completion-date-input">
-          <input type="date" id="completionDate">
-        </div>
-        
-        <button id="saveProgressBtn" class="btn-secondary">💾 Save Reading Progress</button>
-        <button id="resetSearchBtn" class="btn-reset">🔄 Reset & Search New</button>
-      </div>
-    </div>
+<div id="info"></div>
 
-    <div id="adminLinkSection" class="admin-link-section hide">
-      <a href="admin.html" target="_blank">🔐 Admin Panel</a>
-    </div>
+<hr>
 
-    <div class="footer">"Your word is a lamp to my feet.” (Psalm 119:105)</div>
-  </div>
+<!-- SAVE -->
+<input id="book" placeholder="Book (Genesis)">
+<input id="chapters" placeholder="Chapters">
+<input id="verses" placeholder="Verses">
+<input id="date" type="date">
+
+<button onclick="save()">💾 Save Progress</button>
+
+<div class="footer">
+"Your word is a lamp to my feet." — Psalm 119:105
+</div>
+
+</div>
 </div>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVkBkjIfJFoNnN8NpiN-lKZ2xK4n-vrjDHZkFiKQ8BIh9ci65JZCL8RTj1vzr7Ocd36A/exec";
-  
-  // ==================== BIBLE BOOKS DATA WITH CHAPTER AND VERSE COUNTS ====================
-  const bibleBooksData = {
-    "Genesis": { chapters: 50, verses: 1533 },
-    "Exodus": { chapters: 40, verses: 1213 },
-    "Leviticus": { chapters: 27, verses: 859 },
-    "Numbers": { chapters: 36, verses: 1288 },
-    "Deuteronomy": { chapters: 34, verses: 959 },
-    "Joshua": { chapters: 24, verses: 658 },
-    "Judges": { chapters: 21, verses: 618 },
-    "Ruth": { chapters: 4, verses: 85 },
-    "1 Samuel": { chapters: 31, verses: 810 },
-    "2 Samuel": { chapters: 24, verses: 695 },
-    "1 Kings": { chapters: 22, verses: 816 },
-    "2 Kings": { chapters: 25, verses: 719 },
-    "1 Chronicles": { chapters: 29, verses: 942 },
-    "2 Chronicles": { chapters: 36, verses: 822 },
-    "Ezra": { chapters: 10, verses: 280 },
-    "Nehemiah": { chapters: 13, verses: 406 },
-    "Esther": { chapters: 10, verses: 167 },
-    "Job": { chapters: 42, verses: 1070 },
-    "Psalms": { chapters: 150, verses: 2461 },
-    "Proverbs": { chapters: 31, verses: 915 },
-    "Ecclesiastes": { chapters: 12, verses: 222 },
-    "Song of Solomon": { chapters: 8, verses: 117 },
-    "Isaiah": { chapters: 66, verses: 1292 },
-    "Jeremiah": { chapters: 52, verses: 1364 },
-    "Lamentations": { chapters: 5, verses: 154 },
-    "Ezekiel": { chapters: 48, verses: 1273 },
-    "Daniel": { chapters: 12, verses: 357 },
-    "Hosea": { chapters: 14, verses: 197 },
-    "Joel": { chapters: 3, verses: 73 },
-    "Amos": { chapters: 9, verses: 146 },
-    "Obadiah": { chapters: 1, verses: 21 },
-    "Jonah": { chapters: 4, verses: 48 },
-    "Micah": { chapters: 7, verses: 105 },
-    "Nahum": { chapters: 3, verses: 56 },
-    "Habakkuk": { chapters: 3, verses: 56 },
-    "Zephaniah": { chapters: 3, verses: 53 },
-    "Haggai": { chapters: 2, verses: 38 },
-    "Zechariah": { chapters: 14, verses: 211 },
-    "Malachi": { chapters: 4, verses: 55 },
-    "Matthew": { chapters: 28, verses: 1071 },
-    "Mark": { chapters: 16, verses: 678 },
-    "Luke": { chapters: 24, verses: 1151 },
-    "John": { chapters: 21, verses: 879 },
-    "Acts": { chapters: 28, verses: 1007 },
-    "Romans": { chapters: 16, verses: 433 },
-    "1 Corinthians": { chapters: 16, verses: 437 },
-    "2 Corinthians": { chapters: 13, verses: 257 },
-    "Galatians": { chapters: 6, verses: 149 },
-    "Ephesians": { chapters: 6, verses: 155 },
-    "Philippians": { chapters: 4, verses: 104 },
-    "Colossians": { chapters: 4, verses: 95 },
-    "1 Thessalonians": { chapters: 5, verses: 89 },
-    "2 Thessalonians": { chapters: 3, verses: 47 },
-    "1 Timothy": { chapters: 6, verses: 113 },
-    "2 Timothy": { chapters: 4, verses: 83 },
-    "Titus": { chapters: 3, verses: 46 },
-    "Philemon": { chapters: 1, verses: 25 },
-    "Hebrews": { chapters: 13, verses: 303 },
-    "James": { chapters: 5, verses: 108 },
-    "1 Peter": { chapters: 5, verses: 105 },
-    "2 Peter": { chapters: 3, verses: 61 },
-    "1 John": { chapters: 5, verses: 105 },
-    "2 John": { chapters: 1, verses: 13 },
-    "3 John": { chapters: 1, verses: 14 },
-    "Jude": { chapters: 1, verses: 25 },
-    "Revelation": { chapters: 22, verses: 404 }
-  };
-  
-  const bibleBooks = Object.keys(bibleBooksData);
-  
-  const searchSection = document.getElementById('searchSection');
-  const refnoInput = document.getElementById('refno');
-  const mobileInput = document.getElementById('mobile');
-  const submitBtn = document.getElementById('submitBtn');
-  const msgDiv = document.getElementById('msg');
-  const progressSection = document.getElementById('progressSection');
-  const recordInfoDiv = document.getElementById('recordInfo');
-  const bookInput = document.getElementById('bookFinished');
-  const bookCompletedCheckbox = document.getElementById('bookCompletedCheckbox');
-  const chaptersInput = document.getElementById('chaptersFinished');
-  const versesInput = document.getElementById('versesFinished');
-  const completionDateInput = document.getElementById('completionDate');
-  const saveProgressBtn = document.getElementById('saveProgressBtn');
-  const resetSearchBtn = document.getElementById('resetSearchBtn');
-  const bookDropdown = document.getElementById('bookDropdown');
-  const bottomSection = document.getElementById('bottomSection');
-  const adminLinkSection = document.getElementById('adminLinkSection');
+const URL = "https://script.google.com/macros/s/AKfycbxCf3rCLl8DpHPxcmggHoXwxR1KVfM6Eo3ZT152btupUdKx7QtNREzHCdQ-deIrbLV29w/exec";
 
-  let currentRecord = null;
-  let currentRefNo = null;
-  let currentMobile = null;
-  let currentName = null;
-  let currentRegDate = null;
-  let selectedBookIndex = -1;
-  let currentFilteredBooks = [...bibleBooks];
-  let isBookSelected = false;
+let data = [];
+let current = null;
 
-  // ==================== HELPER FUNCTIONS ====================
-  function getBookData(bookName) {
-    return bibleBooksData[bookName] || { chapters: 0, verses: 0 };
+/* LOAD */
+async function load() {
+  const res = await fetch(URL);
+  const text = await res.text();
+  const json = JSON.parse(text);
+
+  if (Array.isArray(json)) {
+    data = json;
+    console.log("Loaded:", data.length);
+  } else {
+    alert("Backend error");
   }
+}
 
-  function calculateVersesFromChapters(bookName, chaptersValue) {
-    const bookData = getBookData(bookName);
-    if (!bookData.verses || !bookData.chapters) return 0;
-    const avgVersesPerChapter = bookData.verses / bookData.chapters;
-    const chaptersNum = parseFloat(chaptersValue) || 0;
-    return Math.round(avgVersesPerChapter * chaptersNum);
-  }
+/* SEARCH */
+function search() {
+  const ref = document.getElementById("refno").value.trim();
+  const mob = document.getElementById("mobile").value.trim();
+  const name = document.getElementById("name").value.toLowerCase().trim();
 
-  function showWarningMessage(bookName, totalChapters, totalVerses) {
-    const warningDiv = document.createElement('div');
-    warningDiv.className = 'warning';
-    warningDiv.innerHTML = `⚠️ <strong>Invalid Input for "${bookName}"</strong><br>
-    Maximum chapters allowed: <strong>${totalChapters}</strong><br>
-    Total verses in this book: <strong>${totalVerses}</strong><br>
-    Please enter a value between 1 and ${totalChapters}.`;
-    
-    // Remove any existing warning message
-    const existingWarning = msgDiv.querySelector('.warning');
-    if (existingWarning) existingWarning.remove();
-    msgDiv.appendChild(warningDiv);
-    
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-      if (warningDiv.parentNode) warningDiv.remove();
-    }, 5000);
-  }
+  const inputMob = mob.replace(/\D/g,'').slice(-8);
 
-  // ==================== UPDATE CHAPTERS AND VERSES BASED ON CHECKBOX ====================
-  function updateChapterVerseState() {
-    const bookValue = bookInput.value.trim();
-    const isBookCompleted = bookCompletedCheckbox.checked;
-    const bookData = getBookData(bookValue);
-    
-    if (bookValue !== '' && isBookCompleted) {
-      // Book Completed = TRUE: Fill with total chapters and verses, then disable
-      chaptersInput.value = bookData.chapters;
-      versesInput.value = bookData.verses;
-      chaptersInput.disabled = true;
-      versesInput.disabled = true;
-    } else if (bookValue !== '' && !isBookCompleted) {
-      // Book Completed = FALSE: Enable inputs for manual entry
-      chaptersInput.disabled = false;
-      versesInput.disabled = false;
-      
-      // If chapters input has a value, auto-calculate verses
-      const chaptersVal = chaptersInput.value.trim();
-      if (chaptersVal && !isNaN(chaptersVal)) {
-        const chaptersNum = parseFloat(chaptersVal);
-        // Validate if chapters exceed total chapters
-        if (chaptersNum > bookData.chapters && bookData.chapters > 0) {
-          showWarningMessage(bookValue, bookData.chapters, bookData.verses);
-          chaptersInput.value = bookData.chapters;
-          versesInput.value = bookData.verses;
-        } else {
-          const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
-          if (calculatedVerses > 0) {
-            versesInput.value = calculatedVerses;
-          }
-        }
-      }
-    } else {
-      // No book selected: reset and disable
-      chaptersInput.value = '';
-      versesInput.value = '';
-      chaptersInput.disabled = false;
-      versesInput.disabled = false;
-    }
-  }
-  
-  // ==================== VALIDATE CHAPTERS INPUT ====================
-  function validateChaptersInput() {
-    const bookValue = bookInput.value.trim();
-    const isBookCompleted = bookCompletedCheckbox.checked;
-    
-    if (bookValue !== '' && !isBookCompleted) {
-      const chaptersVal = chaptersInput.value.trim();
-      const bookData = getBookData(bookValue);
-      
-      if (chaptersVal && !isNaN(chaptersVal) && bookData.chapters > 0) {
-        const chaptersNum = parseFloat(chaptersVal);
-        
-        // Check if chapters exceed total chapters
-        if (chaptersNum > bookData.chapters) {
-          showWarningMessage(bookValue, bookData.chapters, bookData.verses);
-          chaptersInput.value = bookData.chapters;
-          versesInput.value = bookData.verses;
-        } else {
-          const calculatedVerses = calculateVersesFromChapters(bookValue, chaptersVal);
-          if (calculatedVerses > 0) {
-            versesInput.value = calculatedVerses;
-          }
-        }
-      }
-    }
-  }
-  
-  // Listen to checkbox change
-  bookCompletedCheckbox.addEventListener('change', updateChapterVerseState);
-  
-  // Listen to chapters input for validation and auto-calculation
-  chaptersInput.addEventListener('input', validateChaptersInput);
+  current = data.find(r => {
+    const rRef = String(r.RefNo || "").trim();
+    const rMob = String(r.Mobile || "").replace(/\D/g,'').slice(-8);
+    const rName = String(r.Name || "").toLowerCase().trim();
 
-  // ==================== DROPDOWN FUNCTIONS ====================
-  function updateDropdownPosition() {
-    const inputRect = bookInput.getBoundingClientRect();
-    bookDropdown.style.position = 'fixed';
-    bookDropdown.style.top = (inputRect.bottom + window.scrollY) + 'px';
-    bookDropdown.style.left = inputRect.left + 'px';
-    bookDropdown.style.width = inputRect.width + 'px';
-  }
-
-  function hideBottomAndAdmin() {
-    bottomSection.classList.add('hide');
-    adminLinkSection.classList.add('hide');
-  }
-
-  function showBottomAndAdmin() {
-    bottomSection.classList.remove('hide');
-    adminLinkSection.classList.remove('hide');
-  }
-
-  function filterBooks(searchTerm) {
-    if (!searchTerm.trim()) return bibleBooks;
-    const term = searchTerm.toLowerCase();
-    return bibleBooks.filter(book => book.toLowerCase().includes(term));
-  }
-
-  function renderDropdown(books) {
-    bookDropdown.innerHTML = '';
-    if (books.length === 0) {
-      const li = document.createElement('li');
-      li.textContent = '📖 No matching books found';
-      li.className = 'no-results';
-      bookDropdown.appendChild(li);
-    } else {
-      books.forEach((book, index) => {
-        const li = document.createElement('li');
-        li.textContent = book;
-        li.addEventListener('click', (e) => {
-          e.stopPropagation();
-          selectBook(book);
-        });
-        li.addEventListener('mouseenter', () => {
-          document.querySelectorAll('.dropdown-list li').forEach(item => item.classList.remove('selected'));
-          li.classList.add('selected');
-          selectedBookIndex = index;
-        });
-        bookDropdown.appendChild(li);
-      });
-    }
-    updateDropdownPosition();
-    bookDropdown.style.display = 'block';
-  }
-
-  function selectBook(book) {
-    bookInput.value = book;
-    isBookSelected = true;
-    bookDropdown.style.display = 'none';
-    selectedBookIndex = -1;
-    
-    // Reset checkbox and update chapter/verse state based on book data
-    bookCompletedCheckbox.checked = false;
-    updateChapterVerseState();
-    
-    showBottomAndAdmin();
-    setDefaultCompletionDate();
-    bookInput.blur();
-  }
-
-  function updateDropdown(searchTerm) {
-    currentFilteredBooks = filterBooks(searchTerm);
-    renderDropdown(currentFilteredBooks);
-    selectedBookIndex = -1;
-  }
-
-  function handleBookInput() {
-    const searchTerm = bookInput.value;
-    
-    if (searchTerm.trim() !== bookInput.value.trim() || searchTerm.trim() === '') {
-      isBookSelected = false;
-      if (searchTerm.trim() === '') {
-        bookCompletedCheckbox.checked = false;
-      }
-      hideBottomAndAdmin();
-    }
-    
-    if (searchTerm.trim() === '') {
-      bookDropdown.style.display = 'none';
-      updateChapterVerseState();
-      return;
-    }
-    updateDropdown(searchTerm);
-  }
-
-  function handleBookKeydown(e) {
-    const items = bookDropdown.querySelectorAll('li');
-    const visibleItems = Array.from(items).filter(item => !item.classList.contains('no-results'));
-    
-    if (visibleItems.length === 0) return;
-    
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      selectedBookIndex = Math.min(selectedBookIndex + 1, visibleItems.length - 1);
-      visibleItems.forEach((item, idx) => {
-        if (idx === selectedBookIndex) item.classList.add('selected');
-        else item.classList.remove('selected');
-      });
-      if (visibleItems[selectedBookIndex]) visibleItems[selectedBookIndex].scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      selectedBookIndex = Math.max(selectedBookIndex - 1, 0);
-      visibleItems.forEach((item, idx) => {
-        if (idx === selectedBookIndex) item.classList.add('selected');
-        else item.classList.remove('selected');
-      });
-      if (visibleItems[selectedBookIndex]) visibleItems[selectedBookIndex].scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (selectedBookIndex >= 0 && visibleItems[selectedBookIndex]) {
-        selectBook(visibleItems[selectedBookIndex].textContent);
-      } else if (currentFilteredBooks.length === 1) {
-        selectBook(currentFilteredBooks[0]);
-      }
-    } else if (e.key === 'Escape') {
-      bookDropdown.style.display = 'none';
-      selectedBookIndex = -1;
-    }
-  }
-
-  function closeDropdown(e) {
-    const combobox = document.getElementById('bookCombobox');
-    if (!combobox.contains(e.target)) {
-      bookDropdown.style.display = 'none';
-      selectedBookIndex = -1;
-    }
-  }
-
-  function handleBookFocus() {
-    hideBottomAndAdmin();
-  }
-
-  window.addEventListener('scroll', () => {
-    if (bookDropdown.style.display === 'block') updateDropdownPosition();
-  });
-  window.addEventListener('resize', () => {
-    if (bookDropdown.style.display === 'block') updateDropdownPosition();
+    return (
+      (ref && rRef === ref) ||
+      (mob && rMob === inputMob) ||
+      (name && rName.includes(name))
+    );
   });
 
-  bookInput.addEventListener('input', handleBookInput);
-  bookInput.addEventListener('keydown', handleBookKeydown);
-  bookInput.addEventListener('focus', handleBookFocus);
-  bookInput.addEventListener('click', (e) => {
-    e.stopPropagation();
-    hideBottomAndAdmin();
-    if (bookInput.value.trim() !== '') updateDropdown(bookInput.value);
+  const info = document.getElementById("info");
+
+  if (current) {
+    info.innerHTML = `<div class="success">✅ ${current.Name}</div>`;
+  } else {
+    info.innerHTML = `<div class="error">❌ Not found</div>`;
+  }
+}
+
+/* SAVE */
+async function save() {
+  if (!current) return alert("Search first");
+
+  const book = document.getElementById("book").value;
+  if (!book) return alert("Enter book");
+
+  await fetch(URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      refno: current.RefNo,
+      name: current.Name,
+      mobile: current.Mobile,
+      registrationDate: current.RegistrationDate,
+      book: document.getElementById("book").value,
+      chapters: document.getElementById("chapters").value,
+      verses: document.getElementById("verses").value,
+      date: document.getElementById("date").value
+    })
   });
-  document.addEventListener('click', closeDropdown);
 
-  function setDefaultCompletionDate() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    completionDateInput.value = `${yyyy}-${mm}-${dd}`;
-  }
+  alert("✅ Saved!");
+}
 
-  function hideSearchSection() { searchSection.classList.add('hide'); }
-  function showSearchSection() { searchSection.classList.remove('hide'); }
-
-  function updateSearchButton() {
-    if (searchSection.classList.contains('hide')) return;
-    const refno = refnoInput.value.trim();
-    const mobile = mobileInput.value.trim();
-    const hasRefno = refno !== '';
-    const hasMobile = mobile !== '';
-    if ((!hasRefno && !hasMobile) || (hasRefno && hasMobile)) {
-      submitBtn.disabled = true;
-      refnoInput.disabled = false;
-      mobileInput.disabled = false;
-    } else if (hasRefno && !hasMobile) {
-      submitBtn.disabled = false;
-      refnoInput.disabled = false;
-      mobileInput.disabled = true;
-      mobileInput.value = '';
-    } else if (!hasRefno && hasMobile) {
-      submitBtn.disabled = false;
-      mobileInput.disabled = false;
-      refnoInput.disabled = true;
-      refnoInput.value = '';
-    }
-  }
-
-  refnoInput.addEventListener('input', updateSearchButton);
-  mobileInput.addEventListener('input', updateSearchButton);
-
-  async function searchParticipant(event) {
-    event.preventDefault();
-    const refno = refnoInput.value.trim();
-    const mobile = mobileInput.value.trim();
-    if (!refno && !mobile) {
-      showMessage('Please enter either RefNo or Mobile number', 'error');
-      return;
-    }
-    submitBtn.disabled = true;
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '⏳ Searching...';
-    msgDiv.innerHTML = '<div class="success" style="background:#e0e0d0;">Searching database...</div>';
-    try {
-      let queryParam = '';
-      if (refno) queryParam = `?refno=${encodeURIComponent(refno)}`;
-      else if (mobile) queryParam = `?mobile=${encodeURIComponent(mobile)}`;
-      const response = await fetch(SCRIPT_URL + queryParam, { method: 'GET', mode: 'cors', headers: { 'Accept': 'application/json' } });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const result = await response.json();
-      let records = [];
-      if (Array.isArray(result)) records = result;
-      else if (result.data && Array.isArray(result.data)) records = result.data;
-      else if (result.data && !Array.isArray(result.data)) records = [result.data];
-      else if (result.RefNo) records = [result];
-      let foundRecord = null;
-      if (refno) foundRecord = records.find(r => String(r.RefNo) === String(refno));
-      else if (mobile) foundRecord = records.find(r => String(r.Mobile) === String(mobile) || String(r.Mobile).endsWith(String(mobile)));
-      if (foundRecord) {
-        currentRecord = foundRecord;
-        currentRefNo = foundRecord.RefNo;
-        currentMobile = foundRecord.Mobile;
-        currentName = foundRecord.Name || 'N/A';
-        currentRegDate = foundRecord.RegistrationDate || 'N/A';
-        if (foundRecord.Timestamp) currentRegDate = new Date(foundRecord.Timestamp).toLocaleDateString();
-        let displayMobile = String(foundRecord.Mobile);
-        if (displayMobile && displayMobile.length === 11 && displayMobile.startsWith('974')) {
-          displayMobile = `+${displayMobile.slice(0,3)} ${displayMobile.slice(3,6)} ${displayMobile.slice(6,9)} ${displayMobile.slice(9)}`;
-        }
-        recordInfoDiv.innerHTML = `<p><strong>📌 RefNo:</strong> ${escapeHtml(String(foundRecord.RefNo))}</p><p><strong>👤 Name:</strong> ${escapeHtml(currentName)}</p><p><strong>📱 Mobile:</strong> ${escapeHtml(displayMobile)}</p><p><strong>📅 Registration Date:</strong> ${escapeHtml(currentRegDate)}</p>`;
-        msgDiv.innerHTML = '<div class="success">✅ Participant found! Enter Bible reading progress below.</div>';
-        hideSearchSection();
-        progressSection.style.display = 'block';
-        bookInput.value = '';
-        bookCompletedCheckbox.checked = false;
-        chaptersInput.value = '';
-        versesInput.value = '';
-        setDefaultCompletionDate();
-        isBookSelected = false;
-        hideBottomAndAdmin();
-        progressSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } else {
-        msgDiv.innerHTML = `<div class="error">❌ Record Not Found</div>`;
-        progressSection.style.display = 'none';
-      }
-    } catch (error) {
-      console.error(error);
-      msgDiv.innerHTML = `<div class="error">⚠️ Connection error: ${error.message}</div>`;
-      progressSection.style.display = 'none';
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnText;
-    }
-  }
-
-  async function saveProgress() {
-    if (!currentRefNo && !currentMobile) {
-      showMessage('No participant selected. Please search first.', 'error');
-      return;
-    }
-    
-    const book = bookInput.value.trim();
-    const isBookCompleted = bookCompletedCheckbox.checked;
-    const chapters = chaptersInput.value.trim();
-    const verses = versesInput.value.trim();
-    const completionDate = completionDateInput.value;
-    
-    if (!book) { 
-      showMessage('Please select or enter a book.', 'error'); 
-      return; 
-    }
-    
-    if (!isBookCompleted && !chapters && !verses) { 
-      showMessage('Please either check "Book Completed" or enter Chapters/Verses.', 'error'); 
-      return; 
-    }
-    
-    saveProgressBtn.disabled = true;
-    const originalBtnText = saveProgressBtn.innerHTML;
-    saveProgressBtn.innerHTML = '⏳ Saving Progress...';
-    
-    try {
-      const payload = { 
-        action: 'saveProgress',
-        refno: currentRefNo,
-        name: currentName,
-        mobile: currentMobile,
-        registrationDate: currentRegDate,
-        bookFinished: book,
-        bookCompleted: isBookCompleted,
-        chaptersFinished: chapters,
-        versesFinished: verses,
-        completionDate: completionDate,
-        timestamp: new Date().toISOString()
-      };
-      
-      console.log('Saving payload:', payload);
-      
-      const response = await fetch(SCRIPT_URL, { 
-        method: 'POST', 
-        mode: 'cors', 
-        headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify(payload) 
-      });
-      
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
-      const result = await response.json();
-      console.log('Save result:', result);
-      
-      if (result.status === 'success') {
-        showMessage('✅ Reading progress saved successfully!', 'success');
-        bookInput.value = '';
-        bookCompletedCheckbox.checked = false;
-        chaptersInput.value = '';
-        versesInput.value = '';
-        setDefaultCompletionDate();
-        isBookSelected = false;
-        hideBottomAndAdmin();
-      } else {
-        throw new Error(result.message || 'Save failed');
-      }
-    } catch (error) {
-      console.error('Save error:', error);
-      showMessage('❌ Failed to save progress: ' + error.message, 'error');
-    } finally {
-      saveProgressBtn.disabled = false;
-      saveProgressBtn.innerHTML = originalBtnText;
-    }
-  }
-
-  function resetSearch() {
-    refnoInput.value = '';
-    mobileInput.value = '';
-    refnoInput.disabled = false;
-    mobileInput.disabled = false;
-    msgDiv.innerHTML = '';
-    progressSection.style.display = 'none';
-    currentRecord = null;
-    currentRefNo = null;
-    currentMobile = null;
-    currentName = null;
-    currentRegDate = null;
-    bookInput.value = '';
-    bookCompletedCheckbox.checked = false;
-    chaptersInput.value = '';
-    versesInput.value = '';
-    setDefaultCompletionDate();
-    recordInfoDiv.innerHTML = '';
-    isBookSelected = false;
-    hideBottomAndAdmin();
-    showSearchSection();
-    updateSearchButton();
-    refnoInput.focus();
-    showMessage('Search reset. You can search for another participant.', 'success');
-  }
-
-  function showMessage(message, type) {
-    msgDiv.innerHTML = `<div class="${type === 'error' ? 'error' : 'success'}">${message}</div>`;
-    setTimeout(() => { if (msgDiv.innerHTML.includes(message)) msgDiv.innerHTML = ''; }, 4000);
-  }
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
-  }
-
-  document.getElementById('form').addEventListener('submit', searchParticipant);
-  saveProgressBtn.addEventListener('click', saveProgress);
-  resetSearchBtn.addEventListener('click', resetSearch);
-  
-  refnoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) { e.preventDefault(); searchParticipant(e); } });
-  mobileInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !submitBtn.disabled && !searchSection.classList.contains('hide')) { e.preventDefault(); searchParticipant(e); } });
-
-  updateSearchButton();
-  setDefaultCompletionDate();
-  console.log('Ready');
+load();
 </script>
+
 </body>
 </html>
