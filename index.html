@@ -10,9 +10,13 @@
 <style>
 * { box-sizing:border-box; }
 body {
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(135deg,#f5efe6,#e8dccb);
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 420px;
+  margin: auto;
+  background: url('backgrnd1.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
 }
 .container {
   max-width:500px;
@@ -24,16 +28,11 @@ body {
   justify-content:center;
 }
 .card {
-  width:100%;
-  max-width:420px;
-  background:url("backgrnd1.png") no-repeat center center;
-  background-size:cover;
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.25);
-  text-align:center;
-  color:white;
-  position:relative;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .card::before {
   content:"";
@@ -47,35 +46,49 @@ body {
 h1 { font-family:'Playfair Display'; }
 
 input {
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:12px;
-  border:1px solid #ddd;
+ width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
 }
 
 button {
-  width:100%;
-  padding:12px;
-  margin-top:15px;
-  border:none;
-  border-radius:12px;
-  background:#b8894a;
-  color:white;
-  font-weight:bold;
+   width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(45deg, #b8894a, #d4af37);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* INFO BOX */
+#info {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* DIVIDER */
+hr {
+  margin: 15px 0;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .logo {
- height: 80px;        /* 🔥 increase size */
-  width: auto;         /* keep aspect ratio */
-  max-width: 90px;     /* prevent overflow */
+ height: 90px;
+  max-width: 110px;
   object-fit: contain;
 }
 
@@ -87,7 +100,6 @@ button {
 .community {
   font-size: 12px;
   font-weight: bold;
-  color: #fff;
 }
 
 h1 {
@@ -99,6 +111,14 @@ h1 {
   font-size: 13px;
   color: #f1e6d6;
 }
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .logo {
+    height: 65px;
+  }
+}
+
 .success { background:#e8f5e9; color:black; padding:12px; margin-top:10px; border-radius:10px; }
 .error { background:#ffe0e0; padding:12px; margin-top:10px; border-radius:10px; }
 
