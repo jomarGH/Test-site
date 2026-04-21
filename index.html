@@ -79,6 +79,13 @@ input[type="date"]:valid::before {
   display: none;
 }
 
+.field-label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #eee;
+}
+
 /* 🔥 BUTTON */
 button {
   width: 100%;
@@ -155,6 +162,7 @@ body {
     font-size: 18px;
   }
 
+
   input, button {
     font-size: 16px; /* 🔥 keep to prevent zoom */
   }
@@ -207,7 +215,8 @@ body {
 <datalist id="books"></datalist>
 <input id="chapters" oninput="autoComputeVerses()" placeholder="Chapters">
 <input id="verses" placeholder="Verses">
-<input id="date" type="date" placeholder="Select Date">
+<label class="field-label">Date</label>
+<input id="date" type="date">
 
 <button onclick="save()">💾 Save Progress</button>
 
