@@ -65,6 +65,40 @@ button {
   font-weight:bold;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.logo {
+ height: 80px;        /* 🔥 increase size */
+  width: auto;         /* keep aspect ratio */
+  max-width: 90px;     /* prevent overflow */
+  object-fit: contain;
+}
+
+.title-box {
+  flex: 1;
+  text-align: center;
+}
+
+.community {
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+}
+
+h1 {
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #f1e6d6;
+}
 .success { background:#e8f5e9; color:black; padding:12px; margin-top:10px; border-radius:10px; }
 .error { background:#ffe0e0; padding:12px; margin-top:10px; border-radius:10px; }
 
@@ -76,8 +110,22 @@ button {
 <div class="container">
 <div class="card">
 
-<h1>📖 Completion Page</h1>
-<div class="subtitle">Bible Progress</div>
+<div class="header">
+
+  <img src="rblogo church.png" class="logo left">
+
+  <div class="title-box">
+    <div class="community">
+      San Pedro Calungsod Filipino Catholic Community Qatar
+    </div>
+ 
+  </div>
+
+  <img src="rblogo spcfcc.png" class="logo right">
+</div>
+
+   <h1>The Word Journey</h1>
+   <div class="subtitle">📖 Bible Progress</div>
 
 <!-- SEARCH -->
 <input id="refno" placeholder="RefNo (e.g. 26001)">
