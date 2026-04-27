@@ -113,7 +113,7 @@
     <div id="participantContent" style="display:none;">
       <div class="mobile-search-section">
         <div class="search-input-group">
-          <input type="tel" id="mobileSearchInput" placeholder="Enter your mobile number (e.g., 9743399426)" autocomplete="off">
+          <input type="tel" id="mobileSearchInput" placeholder="(e.g. 97433999426)" autocomplete="off">
           <button id="searchMobileBtn"><i class="fas fa-search"></i> Search</button>
           <button id="resetSearchBtn" class="secondary"><i class="fas fa-undo-alt"></i> Reset</button>
         </div>
@@ -140,12 +140,17 @@
         </div>
         <div class="section-title"><i class="fas fa-book-open"></i> Completed Books</div>
         <div class="table-wrapper">
-          <table id="userBooksTable"><thead><tr><th>#</th><th>Book</th><th>Chapters</th><th>Verses</th><th>Completed Date</th><th>Status</th></tr></thead><tbody id="userBooksTbody"></tbody></table>
+          <table id="userBooksTable">
+            <thead>
+              <tr><th>#</th><th>Book</th><th>Chapters</th><th>Verses</th><th>Completion Date</th><th>Status</th>
+            </thead>
+            <tbody id="userBooksTbody"></tbody>
+          </table>
         </div>
         <div class="section-title"><i class="fas fa-chart-simple"></i> Reading Statistics</div>
         <div class="stats-grid">
-          <div class="stat-card"><i class="fas fa-scroll"></i><h4>Total Chapters</h4><div class="stat-number" id="userTotalChapters">0</div></div>
-          <div class="stat-card"><i class="fas fa-feather-alt"></i><h4>Total Verses</h4><div class="stat-number" id="userTotalVerses">0</div></div>
+          <div class="stat-card"><i class="fas fa-scroll"></i><h4>Total Chapters Read</h4><div class="stat-number" id="userTotalChapters">0</div></div>
+          <div class="stat-card"><i class="fas fa-feather-alt"></i><h4>Total Verses Read</h4><div class="stat-number" id="userTotalVerses">0</div></div>
           <div class="stat-card"><i class="fas fa-calendar-week"></i><h4>Books Done</h4><div class="stat-number" id="userBooksCount">0</div></div>
           <div class="stat-card"><i class="fas fa-chart-line"></i><h4>Completion Rate</h4><div class="stat-number" id="userCompletionRate">0%</div></div>
           <div class="stat-card"><i class="fas fa-trophy"></i><h4>Most Read Book</h4><div class="stat-number" id="userTopBook" style="font-size:1.2rem;">—</div></div>
@@ -188,78 +193,125 @@
   const ADMIN_PASSWORD = "bible2025";
   let isAdminUnlocked = false;
   let enrichedParticipants = [];
+  let currentDisplayParticipant = null;
   let bookChart = null, activityChart = null;
   const API_URL = "https://script.google.com/macros/s/AKfycbxCf3rCLl8DpHPxcmggHoXwxR1KVfM6Eo3ZT152btupUdKx7QtNREzHCdQ-deIrbLV29w/exec";
-
-  // ========== DEMO DATA WITH WORKING MOBILE NUMBERS ==========
-  const DEMO_PARTICIPANTS = [
-    { refno: "26031", name: "Jacob Jurcales", mobile: "9743399426", booksDetail: [{ book: "John", chapters: 20, verses: 840, date: "16/04/2026" }], totalChapters: 20, totalVerses: 840 },
-    { refno: "26029", name: "Jomar Mandapat", mobile: "97466694709", booksDetail: [{ book: "Genesis", chapters: 50, verses: 1533, date: "20/04/2026" }, { book: "Exodus", chapters: 40, verses: 1213, date: "20/04/2026" }], totalChapters: 90, totalVerses: 2746 },
-    { refno: "26032", name: "Jophrey Jurcales", mobile: "9743399426", booksDetail: [{ book: "John", chapters: 20, verses: 837, date: "16/04/2026" }], totalChapters: 20, totalVerses: 837 },
-    { refno: "26043", name: "Lorena Nacario", mobile: "97455489947", booksDetail: [{ book: "Luke", chapters: 24, verses: 1151, date: "16/04/2026" }], totalChapters: 24, totalVerses: 1151 },
-    { refno: "26042", name: "Rafael Nacario", mobile: "97455484939", booksDetail: [{ book: "Luke", chapters: 24, verses: 1151, date: "16/04/2026" }], totalChapters: 24, totalVerses: 1151 }
-  ];
-
-  function processParticipants(data) {
-    return data.map(p => {
-      const uniqueBooks = [...new Set(p.booksDetail.map(b => b.book))];
-      const percentComplete = Math.round((uniqueBooks.length / TOTAL_BOOKS) * 100);
-      let mostReadBook = "—", maxCh = 0;
-      p.booksDetail.forEach(b => { if (b.chapters > maxCh) { maxCh = b.chapters; mostReadBook = b.book; } });
-      return { ...p, uniqueBooks, completedCount: uniqueBooks.length, percentComplete: percentComplete, mostReadBook: mostReadBook };
-    });
-  }
 
   async function fetchData() {
     try {
       const response = await fetch(API_URL);
       const data = await response.json();
-      if (data.status === "error") throw new Error("API error");
-      // Process real data if available
+      
+      if (data.status === "error") throw new Error(data.message);
+      
       const users = data.users || [];
       const progress = data.progress || [];
-      if (users.length > 0) {
-        const map = new Map();
-        users.forEach(u => { const ref = String(u.RefNo || u.refno || "").trim(); if (ref) map.set(ref, { refno: ref, name: u.Name || u.name || "Unknown", mobile: u.Mobile || u.mobile || "", booksDetail: [], totalChapters: 0, totalVerses: 0 }); });
-        progress.forEach(p => {
-          const ref = String(p.RefNo || p.refno || "").trim();
-          const book = p.Book || p.book || "";
-          const ch = parseInt(p.Chapters || p.chapters || 0);
-          const vs = parseInt(p.Verses || p.verses || 0);
-          let date = p.Date || p.date || p.Completedate || "";
-          if (!ref || !book) return;
-          let fmtDate = "";
-          if (date) { try { let d = new Date(date); if (!isNaN(d.getTime())) fmtDate = d.toLocaleDateString("en-GB"); else fmtDate = date; } catch (e) { fmtDate = date; } }
-          if (map.has(ref)) {
-            let u = map.get(ref);
-            if (!u.booksDetail.some(b => b.book === book)) u.booksDetail.push({ book, chapters: ch, verses: vs, date: fmtDate });
-            u.totalChapters += ch;
-            u.totalVerses += vs;
+      
+      // Group progress by RefNo
+      const userMap = new Map();
+      
+      // First, add all users
+      users.forEach(user => {
+        const refno = String(user.RefNo);
+        userMap.set(refno, {
+          refno: refno,
+          name: user.Name || "Unknown",
+          mobile: String(user.Mobile || ""),
+          booksDetail: [],
+          totalChapters: 0,
+          totalVerses: 0,
+          registrationDate: user.RegistrationDate || ""
+        });
+      });
+      
+      // Then add all progress
+      progress.forEach(prog => {
+        const refno = String(prog.RefNo);
+        const book = prog.Book || "";
+        const chapters = parseInt(prog.Chapters) || 0;
+        const verses = parseInt(prog.Verses) || 0;
+        let completionDate = prog.CompletionDate || "";
+        
+        // Format date nicely
+        if (completionDate) {
+          try {
+            const d = new Date(completionDate);
+            if (!isNaN(d.getTime())) {
+              completionDate = d.toISOString().split('T')[0];
+            }
+          } catch(e) {}
+        }
+        
+        if (userMap.has(refno)) {
+          const user = userMap.get(refno);
+          user.booksDetail.push({
+            book: book,
+            chapters: chapters,
+            verses: verses,
+            date: completionDate
+          });
+          user.totalChapters += chapters;
+          user.totalVerses += verses;
+        } else {
+          // User not in Compage sheet, create entry
+          if (!userMap.has(refno)) {
+            userMap.set(refno, {
+              refno: refno,
+              name: prog.Name || "Unknown",
+              mobile: String(prog.Mobile || ""),
+              booksDetail: [{
+                book: book,
+                chapters: chapters,
+                verses: verses,
+                date: completionDate
+              }],
+              totalChapters: chapters,
+              totalVerses: verses,
+              registrationDate: ""
+            });
+          }
+        }
+      });
+      
+      // Process participants
+      enrichedParticipants = Array.from(userMap.values()).map(p => {
+        const uniqueBooks = [...new Set(p.booksDetail.map(b => b.book))];
+        const percentComplete = Math.round((uniqueBooks.length / TOTAL_BOOKS) * 100);
+        
+        let mostReadBook = "—", maxCh = 0;
+        p.booksDetail.forEach(b => {
+          if (b.chapters > maxCh) {
+            maxCh = b.chapters;
+            mostReadBook = b.book;
           }
         });
-        enrichedParticipants = processParticipants(Array.from(map.values()));
-      } else {
-        enrichedParticipants = processParticipants(DEMO_PARTICIPANTS);
-      }
+        
+        return {
+          ...p,
+          uniqueBooks: uniqueBooks,
+          completedCount: uniqueBooks.length,
+          percentComplete: percentComplete,
+          mostReadBook: mostReadBook
+        };
+      });
+      
+      document.getElementById("loadingOverlay").style.display = "none";
+      document.getElementById("participantContent").style.display = "block";
+      if (isAdminUnlocked) renderAdminView();
+      
     } catch (error) {
-      console.warn("Using demo data:", error);
-      enrichedParticipants = processParticipants(DEMO_PARTICIPANTS);
+      console.error("Error fetching data:", error);
+      document.getElementById("loadingOverlay").innerHTML = `<i class="fas fa-exclamation-triangle"></i> Error: ${error.message}<br>Check API URL and CORS settings.`;
     }
-    document.getElementById("loadingOverlay").style.display = "none";
-    document.getElementById("participantContent").style.display = "block";
-    if (isAdminUnlocked) renderAdminView();
   }
 
-  // ========== FIXED MOBILE SEARCH ==========
+  // ========== MOBILE SEARCH ==========
   function searchByMobile() {
     const mobileInput = document.getElementById("mobileSearchInput").value.trim();
     const statusDiv = document.getElementById("searchStatus");
     const displayArea = document.getElementById("participantDisplayArea");
     const noResultsDiv = document.getElementById("noResultsMessage");
     const multipleCard = document.getElementById("multipleParticipantsCard");
-    
-    console.log("Searching for mobile:", mobileInput);
-    console.log("Available participants:", enrichedParticipants.map(p => ({ name: p.name, mobile: p.mobile })));
     
     if (!mobileInput) {
       statusDiv.style.display = "block";
@@ -268,21 +320,13 @@
       return;
     }
     
-    // Normalize the input: remove any non-digit characters for comparison
-    const normalizedInput = mobileInput.replace(/\D/g, '');
-    
-    // Find matches by comparing normalized mobile numbers
-    const matches = enrichedParticipants.filter(p => {
-      const normalizedMobile = String(p.mobile).replace(/\D/g, '');
-      return normalizedMobile === normalizedInput;
-    });
-    
-    console.log("Matches found:", matches.length);
+    // Find exact mobile match
+    const matches = enrichedParticipants.filter(p => p.mobile === mobileInput);
     
     if (matches.length === 0) {
       statusDiv.style.display = "block";
       statusDiv.className = "search-result-status error";
-      statusDiv.innerHTML = "No participant found with that mobile number. Try: 9743399426, 97466694709, 97455489947";
+      statusDiv.innerHTML = "No participant found with that mobile number. Try: 97433999426";
       displayArea.style.display = "none";
       multipleCard.style.display = "none";
       noResultsDiv.style.display = "block";
@@ -331,7 +375,7 @@
     document.getElementById("bigFillBar").style.width = `${p.percentComplete}%`;
     document.getElementById("booksCompletedCount").innerText = p.completedCount;
     document.getElementById("userTotalChapters").innerText = p.totalChapters;
-    document.getElementById("userTotalVerses").innerText = p.totalVerses;
+    document.getElementById("userTotalVerses").innerText = p.totalVerses.toLocaleString();
     document.getElementById("userBooksCount").innerText = p.completedCount;
     document.getElementById("userCompletionRate").innerText = `${p.percentComplete}%`;
     document.getElementById("userTopBook").innerText = p.mostReadBook;
@@ -345,9 +389,10 @@
         const row = tbody.insertRow();
         row.insertCell(0).innerText = i + 1;
         row.insertCell(1).innerHTML = `<strong>${b.book}</strong>`;
-        row.insertCell(2).innerHTML = `<span class="badge-book">📖 ${b.chapters} ch</span>`;
-        row.insertCell(3).innerHTML = `<span class="badge-book">📜 ${b.verses} vs</span>`;
-        row.insertCell(4).innerHTML = b.date ? `<i class="fas fa-calendar-alt"></i> ${b.date}` : "—";
+        row.insertCell(2).innerHTML = `<span class="badge-book">📖 ${b.chapters} chapters</span>`;
+        row.insertCell(3).innerHTML = `<span class="badge-book">📜 ${b.verses} verses</span>`;
+        // ✅ NOW DISPLAYING COMPLETION DATE!
+        row.insertCell(4).innerHTML = b.date ? `<i class="fas fa-calendar-alt"></i> <strong>${b.date}</strong>` : "<span style='color:#aaa;'>—</span>";
         row.insertCell(5).innerHTML = '<span style="color:#27ae60;"><i class="fas fa-check-circle"></i> Completed</span>';
       });
     }
@@ -363,7 +408,7 @@
   
   function exitDashboard() {
     if (confirm("Exit The Word Journey Dashboard?")) {
-      document.body.innerHTML = '<div style="text-align:center; padding:100px;"><i class="fas fa-bible fa-3x" style="color:#7a4c2c;"></i><h2>Thank you for using The Word Journey</h2><p>You may close this browser tab.</p><p style="margin-top:20px;">📖 "Your word is a lamp to my feet" — Psalm 119:105</p></div>';
+      document.body.innerHTML = '<div style="text-align:center; padding:100px;"><i class="fas fa-bible fa-3x" style="color:#7a4c2c;"></i><h2>Thank you for using The Word Journey</h2><p>You may close this browser tab.</p></div>';
     }
   }
 
